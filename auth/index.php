@@ -1,4 +1,3 @@
-
 <?php require_once("../controller/script.php");
 if (isset($_SESSION["data-user"])) {
   header("Location: ../views/");
@@ -6,6 +5,24 @@ if (isset($_SESSION["data-user"])) {
 }
 $_SESSION["page-name"] = "Masuk";
 $_SESSION["page-url"] = "./";
+
+if (isset($_GET['auth'])) {
+  $auth = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_GET['auth']))));
+  $crypt = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_GET['crypt']))));
+  $checkEn = mysqli_query($conn, "SELECT * FROM users WHERE en_user='$crypt'");
+  if (mysqli_num_rows($checkEn) > 0) {
+    $row = mysqli_fetch_assoc($checkEn);
+    $id_user = $row['id_user'];
+    $email = $row['email'];
+    if (password_verify($email, $auth)) {
+      mysqli_query($conn, "UPDATE users SET id_status='1' WHERE id_user='$id_user'");
+      $_SESSION["message-success"] = "Akun anda berhasil di verifikasi.";
+      $_SESSION["time-message"] = time();
+      header("Location: ./");
+      exit();
+    }
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -12746,7 +12746,7 @@ fieldset:disabled .swal2-modal .swal2-buttonswrapper .swal2-styled,
 .nav-link {
   display: block;
   padding: 0.5rem 1rem;
-  color: #0d6efd;
+  color: #1b1b1b;
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
@@ -12758,7 +12758,7 @@ fieldset:disabled .swal2-modal .swal2-buttonswrapper .swal2-styled,
 }
 
 .nav-link:hover, .nav-link:focus {
-  color: #0a58ca;
+  color: #000000;
 }
 
 .nav-link.disabled {
@@ -12812,7 +12812,7 @@ fieldset:disabled .swal2-modal .swal2-buttonswrapper .swal2-styled,
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #0d6efd;
+  background-color: #1b1b1b;
 }
 
 .nav-fill > .nav-link,
@@ -28971,7 +28971,7 @@ div.tagsinput span.tag a {
   font-size: 22px;
   line-height: 1;
   margin-right: 1rem;
-  color: #fff;
+  color: #1b1b1b;
 }
 
 .rtl .sidebar .nav .nav-item .nav-link i.menu-icon {
@@ -29011,7 +29011,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar .nav .nav-item .nav-link .menu-title {
-  color: #fff;
+  color: #1b1b1b;
   display: inline-block;
   font-size: 12px;
   line-height: 1;
@@ -29040,7 +29040,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar .nav .nav-item.active > .nav-link {
-  background: #fff;
+  background: #1b1b1b;
   position: relative;
   font-weight: bold;
   font-size: 13px;
@@ -29067,7 +29067,7 @@ div.tagsinput span.tag a {
 }
 
 .sidebar .nav .nav-item.nav-category {
-  color: #fff;
+  color: #1b1b1b;
   border-bottom: 1px solid rgba(255, 255, 255, 0.13);
   margin: 0 30px;
   font-size: 11px;

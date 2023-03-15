@@ -28,7 +28,7 @@ if (isset($_SESSION["time-message"])) {
   }
 }
 
-$baseURL = "http://$_SERVER[HTTP_HOST]/apps/sei-babi-om-bai/";
+$baseURL = "http://$_SERVER[HTTP_HOST]/apps/sei-babi-om-bai";
 
 if (!isset($_SESSION["data-user"])) {
   if (isset($_POST["masuk"])) {
@@ -41,7 +41,7 @@ if (!isset($_SESSION["data-user"])) {
     if (daftar($_POST) > 0) {
       $_SESSION["message-success"] = "Silakan cek email anda untuk verifikasi akun.";
       $_SESSION["time-message"] = time();
-      header("Location: masuk");
+      header("Location: ./");
       exit();
     }
   }

@@ -15,15 +15,21 @@ if (!isset($_SESSION["data-user"])) {
       return false;
     } else if (mysqli_num_rows($checkAccount) > 0) {
       $row = mysqli_fetch_assoc($checkAccount);
-      if (password_verify($password, $row["password"])) {
-        $_SESSION["data-user"] = [
-          "id" => $row["id_user"],
-          "role" => $row["id_role"],
-          "email" => $row["email"],
-          "username" => $row["username"],
-        ];
+      if ($row['id_status'] == 1) {
+        if (password_verify($password, $row["password"])) {
+          $_SESSION["data-user"] = [
+            "id" => $row["id_user"],
+            "role" => $row["id_role"],
+            "email" => $row["email"],
+            "username" => $row["username"],
+          ];
+        } else {
+          $_SESSION["message-danger"] = "Maaf, kata sandi yang anda masukan salah.";
+          $_SESSION["time-message"] = time();
+          return false;
+        }
       } else {
-        $_SESSION["message-danger"] = "Maaf, kata sandi yang anda masukan salah.";
+        $_SESSION["message-danger"] = "Maaf, akun anda belum diverifikasi.";
         $_SESSION["time-message"] = time();
         return false;
       }
@@ -45,7 +51,27 @@ if (!isset($_SESSION["data-user"])) {
       $_SESSION["time-message"] = time();
       return false;
     } else {
-      
+      $auth = password_hash($email, PASSWORD_DEFAULT);
+      $en_user = crc32($email);
+      require("mail.php");
+      $to       = $email;
+      $subject  = "Verifikasi Akun di Sei Babi Om Ba'i kamu sekarang!!";
+      $message  = "<!doctype html>
+      <html>
+        <head>
+          <meta name='viewport' content='width=device-width'>
+          <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>
+          <title>Verifikasi Akun</title>
+        </head>
+        <body>
+          <p>Selamat akun anda sudah terdaftar, tinggal satu langkah lagi anda sudah bisa menggunakan akun anda. Silakan verifikasi sekarang dengan mengklik tautan di bawah ini.</p>
+          <a href='http://127.0.0.1:1010/apps/sei-babi-om-bai/auth/index?auth=" . $auth . "&crypt=" . $en_user . "' target='_blank' style='background-color: #ffffff; border: solid 1px #000; border-radius: 5px; box-sizing: border-box; cursor: pointer; display: inline-block; font-size: 14px; font-weight: bold; margin: 0; padding: 12px 25px; text-decoration: none; text-transform: capitalize; border-color: #000; color: #000;'>Verifikasi Sekarang</a>
+        </body>
+      </html>";
+      smtp_mail($to, $subject, $message, '', '', 0, 0, true);
+
+      mysqli_query($conn, "INSERT INTO users(en_user,username,email,password,telp,alamat) VALUES('$en_user','$username','$email','$password','$telp','$alamat')");
+      return mysqli_affected_rows($conn);
     }
   }
 }

@@ -1,4 +1,3 @@
-
 <?php require_once("../controller/script.php");
 require_once("redirect.php");
 $_SESSION["page-name"] = "Kelola Akun Saya";
@@ -45,6 +44,14 @@ $_SESSION["page-url"] = "profil";
                           <label for="password" class="form-label">Kata Sandi</label>
                           <input type="password" name="password" value="" class="form-control" id="password" placeholder="Kata Sandi" required>
                         </div>
+                        <div class="mb-3">
+                          <label for="telp" class="form-label">Telp</label>
+                          <input type="number" name="telp" value="<?= $row['telp'] ?>" class="form-control" id="telp" placeholder="Telp" max="12" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="alamat" class="form-label">Alamat</label>
+                          <textarea name="alamat" class="form-control" id="alamat" style="height: 100px;" placeholder="Alamat" maxlength="200" cols="30" rows="10" required><?= $row['alamat'] ?></textarea>
+                        </div>
                         <button type="submit" name="ubah-profile" class="btn btn-primary">Simpan</button>
                       </form>
                     </div>
@@ -66,6 +73,16 @@ $_SESSION["page-url"] = "profil";
                               <th scope="row">Email</th>
                               <td>:</td>
                               <td class="w-75"><?= $row["email"] ?></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Telp</th>
+                              <td>:</td>
+                              <td class="w-75"><?= $row["telp"] ?></td>
+                            </tr>
+                            <tr>
+                              <th scope="row">Alamat</th>
+                              <td>:</td>
+                              <td class="w-75"><?= $row["alamat"] ?></td>
                             </tr>
                           </tbody>
                         </table>

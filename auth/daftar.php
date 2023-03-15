@@ -56,13 +56,13 @@ $_SESSION["page-url"] = "daftar";
                   <label for="telp">Telp</label>
                   <input type="number" name="telp" value="<?php if (isset($_POST['telp'])) {
                                                             echo $_POST['telp'];
-                                                          } ?>" id="telp" class="form-control text-center" placeholder="Telp" maxlength="12" required>
+                                                          } ?>" id="telp" class="form-control text-center" placeholder="Telp" max="12" required>
                 </div>
                 <div class="form-group">
                   <label for="alamat">Alamat</label>
-                  <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="10" style="height: 100px;" placeholder="Alamat" maxlength="200" required><?php if (isset($_POST['alamat'])) {
-                                                                                                                                                                              echo $_POST['alamat'];
-                                                                                                                                                                            } ?></textarea>
+                  <textarea name="alamat" id="alamat" class="form-control" cols="30" rows="10" style="height: 100px;" placeholder="Alamat" max="200" required><?php if (isset($_POST['alamat'])) {
+                                                                                                                                                                echo $_POST['alamat'];
+                                                                                                                                                              } ?></textarea>
                 </div>
                 <div class="mt-3">
                   <button type="submit" name="daftar" class="btn rounded-0 text-white" style="background-color: rgb(3, 164, 237);">Masuk</button>
