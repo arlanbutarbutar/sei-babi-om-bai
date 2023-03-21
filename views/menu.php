@@ -37,11 +37,13 @@ $_SESSION["page-url"] = "menu";
                       <h3>Menu</h3>
                     </li>
                   </ul>
-                  <div>
-                    <div class="btn-wrapper">
-                      <a href="#" class="btn btn-primary text-white me-0 btn-sm rounded-0" data-bs-toggle="modal" data-bs-target="#tambah">Tambah</a>
+                  <?php if ($_SESSION['data-user']['role'] == 1) { ?>
+                    <div>
+                      <div class="btn-wrapper">
+                        <a href="#" class="btn btn-primary text-white me-0 btn-sm rounded-0" data-bs-toggle="modal" data-bs-target="#tambah">Tambah</a>
+                      </div>
                     </div>
-                  </div>
+                  <?php } ?>
                 </div>
                 <?php if ($_SESSION['data-user']['role'] <= 2) { ?>
                   <div class="card rounded-0 mt-3">
@@ -56,7 +58,9 @@ $_SESSION["page-url"] = "menu";
                             <th scope="col" class="text-center">Status</th>
                             <th scope="col" class="text-center">Tgl Buat</th>
                             <th scope="col" class="text-center">Tgl Ubah</th>
-                            <th scope="col" class="text-center">Aksi</th>
+                            <?php if ($_SESSION['data-user']['role'] == 1) { ?>
+                              <th scope="col" class="text-center">Aksi</th>
+                            <?php } ?>
                           </tr>
                         </thead>
                         <tbody>
@@ -81,83 +85,85 @@ $_SESSION["page-url"] = "menu";
                                     echo date_format($dateUpdate, "l, d M Y h:i a"); ?>
                                   </div>
                                 </td>
-                                <td class="d-flex justify-content-center">
-                                  <div class="col">
-                                    <button type="button" class="btn btn-warning btn-sm text-white rounded-0 border-0" style="height: 30px;" data-bs-toggle="modal" data-bs-target="#ubah<?= $row["id_menu"] ?>">
-                                      <i class="bi bi-pencil-square"></i>
-                                    </button>
-                                    <div class="modal fade" id="ubah<?= $row["id_menu"] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                        <div class="modal-content">
-                                          <div class="modal-header border-bottom-0 shadow">
-                                            <h5 class="modal-title" id="exampleModalLabel">Ubah menu <?= $row["nama_makanan"] ?></h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                          </div>
-                                          <form action="" method="POST">
-                                            <div class="modal-body text-center">
-                                              <div class="mb-3">
-                                                <label for="nama" class="form-label">Nama Makanan <small class="text-danger">*</small></label>
-                                                <input type="text" name="nama" value="<?= $row['nama_makanan'] ?>" class="form-control text-center" id="nama" minlength="3" placeholder="Nama Makanan" required>
-                                              </div>
-                                              <div class="mb-3">
-                                                <label for="deskripsi" class="form-label">Deskripsi <small class="text-danger">*</small></label>
-                                                <textarea name="deskripsi" class="form-control" id="deskripsi" style="height: 100px;" placeholder="Deskripsi" maxlength="500" cols="30" rows="10" required><?= $row['deskripsi'] ?></textarea>
-                                              </div>
-                                              <div class="mb-3">
-                                                <label for="harga" class="form-label">Harga <small class="text-danger">*</small></label>
-                                                <input type="number" name="harga" value="<?= $row['harga'] ?>" class="form-control text-center" id="harga" min="0" placeholder="Harga" required>
-                                              </div>
-                                              <div class="mb-3">
-                                                <label for="stok" class="form-label">Stok <span><small>(Dalam kg)</small></span><small class="text-danger">*</small></label>
-                                                <input type="number" name="stok" value="<?= $row['stok'] ?>" class="form-control text-center" id="stok" min="0" placeholder="Stok" required>
-                                              </div>
-                                              <div class="mb-3">
-                                                <label for="id-status" class="form-label">Status <small class="text-danger">*</small></label>
-                                                <select name="id-status" class="form-select" required>
-                                                  <?php foreach ($menu_status as $row_ms) : ?>
-                                                    <option value="<?= $row_ms['id_status'] ?>"><?= $row_ms['status_menu'] ?></option>
-                                                  <?php endforeach; ?>
-                                                </select>
-                                              </div>
+                                <?php if ($_SESSION['data-user']['role'] == 1) { ?>
+                                  <td class="d-flex justify-content-center">
+                                    <div class="col">
+                                      <button type="button" class="btn btn-warning btn-sm text-white rounded-0 border-0" style="height: 30px;" data-bs-toggle="modal" data-bs-target="#ubah<?= $row["id_menu"] ?>">
+                                        <i class="bi bi-pencil-square"></i>
+                                      </button>
+                                      <div class="modal fade" id="ubah<?= $row["id_menu"] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header border-bottom-0 shadow">
+                                              <h5 class="modal-title" id="exampleModalLabel">Ubah menu <?= $row["nama_makanan"] ?></h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-footer justify-content-center border-top-0">
-                                              <input type="hidden" name="id-menu" value="<?= $row["id_menu"] ?>">
-                                              <input type="hidden" name="namaOld" value="<?= $row["nama_makanan"] ?>">
-                                              <button type="button" class="btn btn-secondary btn-sm rounded-0 border-0" style="height: 30px;" data-bs-dismiss="modal">Batal</button>
-                                              <button type="submit" name="ubah-menu" class="btn btn-warning btn-sm rounded-0 border-0" style="height: 30px;">Ubah</button>
-                                            </div>
-                                          </form>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="col">
-                                    <button type="button" class="btn btn-danger btn-sm text-white rounded-0 border-0" style="height: 30px;" data-bs-toggle="modal" data-bs-target="#hapus<?= $row["id_menu"] ?>">
-                                      <i class="bi bi-trash3"></i>
-                                    </button>
-                                    <div class="modal fade" id="hapus<?= $row["id_menu"] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog">
-                                        <div class="modal-content">
-                                          <div class="modal-header border-bottom-0 shadow">
-                                            <h5 class="modal-title" id="exampleModalLabel">Hapus menu <?= $row["nama_makanan"] ?></h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                          </div>
-                                          <div class="modal-body text-center">
-                                            Anda yakin ingin menghapus <?= $row["nama_makanan"] ?> ini?
-                                          </div>
-                                          <div class="modal-footer justify-content-center border-top-0">
-                                            <button type="button" class="btn btn-secondary btn-sm rounded-0 border-0" style="height: 30px;" data-bs-dismiss="modal">Batal</button>
                                             <form action="" method="POST">
-                                              <input type="hidden" name="id-menu" value="<?= $row["id_menu"] ?>">
-                                              <input type="hidden" name="namaOld" value="<?= $row["nama_makanan"] ?>">
-                                              <button type="submit" name="hapus-menu" class="btn btn-danger btn-sm rounded-0 text-white border-0" style="height: 30px;">Hapus</button>
+                                              <div class="modal-body text-center">
+                                                <div class="mb-3">
+                                                  <label for="nama" class="form-label">Nama Makanan <small class="text-danger">*</small></label>
+                                                  <input type="text" name="nama" value="<?= $row['nama_makanan'] ?>" class="form-control text-center" id="nama" minlength="3" placeholder="Nama Makanan" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                  <label for="deskripsi" class="form-label">Deskripsi <small class="text-danger">*</small></label>
+                                                  <textarea name="deskripsi" class="form-control" id="deskripsi" style="height: 100px;" placeholder="Deskripsi" maxlength="500" cols="30" rows="10" required><?= $row['deskripsi'] ?></textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                  <label for="harga" class="form-label">Harga <small class="text-danger">*</small></label>
+                                                  <input type="number" name="harga" value="<?= $row['harga'] ?>" class="form-control text-center" id="harga" min="0" placeholder="Harga" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                  <label for="stok" class="form-label">Stok <span><small>(Dalam kg)</small></span><small class="text-danger">*</small></label>
+                                                  <input type="number" name="stok" value="<?= $row['stok'] ?>" class="form-control text-center" id="stok" min="0" placeholder="Stok" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                  <label for="id-status" class="form-label">Status <small class="text-danger">*</small></label>
+                                                  <select name="id-status" class="form-select" required>
+                                                    <?php foreach ($menu_status as $row_ms) : ?>
+                                                      <option value="<?= $row_ms['id_status'] ?>"><?= $row_ms['status_menu'] ?></option>
+                                                    <?php endforeach; ?>
+                                                  </select>
+                                                </div>
+                                              </div>
+                                              <div class="modal-footer justify-content-center border-top-0">
+                                                <input type="hidden" name="id-menu" value="<?= $row["id_menu"] ?>">
+                                                <input type="hidden" name="namaOld" value="<?= $row["nama_makanan"] ?>">
+                                                <button type="button" class="btn btn-secondary btn-sm rounded-0 border-0" style="height: 30px;" data-bs-dismiss="modal">Batal</button>
+                                                <button type="submit" name="ubah-menu" class="btn btn-warning btn-sm rounded-0 border-0" style="height: 30px;">Ubah</button>
+                                              </div>
                                             </form>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </td>
+                                    <div class="col">
+                                      <button type="button" class="btn btn-danger btn-sm text-white rounded-0 border-0" style="height: 30px;" data-bs-toggle="modal" data-bs-target="#hapus<?= $row["id_menu"] ?>">
+                                        <i class="bi bi-trash3"></i>
+                                      </button>
+                                      <div class="modal fade" id="hapus<?= $row["id_menu"] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header border-bottom-0 shadow">
+                                              <h5 class="modal-title" id="exampleModalLabel">Hapus menu <?= $row["nama_makanan"] ?></h5>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                              Anda yakin ingin menghapus <?= $row["nama_makanan"] ?> ini?
+                                            </div>
+                                            <div class="modal-footer justify-content-center border-top-0">
+                                              <button type="button" class="btn btn-secondary btn-sm rounded-0 border-0" style="height: 30px;" data-bs-dismiss="modal">Batal</button>
+                                              <form action="" method="POST">
+                                                <input type="hidden" name="id-menu" value="<?= $row["id_menu"] ?>">
+                                                <input type="hidden" name="namaOld" value="<?= $row["nama_makanan"] ?>">
+                                                <button type="submit" name="hapus-menu" class="btn btn-danger btn-sm rounded-0 text-white border-0" style="height: 30px;">Hapus</button>
+                                              </form>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </td>
+                                <?php } ?>
                               </tr>
                           <?php $no++;
                             }

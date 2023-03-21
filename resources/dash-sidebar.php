@@ -6,7 +6,7 @@
         <span class="menu-title">Dashboard</span>
       </a>
     </li>
-    <?php if ($_SESSION['data-user']['role'] <= 2) { ?>
+    <?php if ($_SESSION['data-user']['role'] == 1) { ?>
       <li class="nav-item nav-category" style="border-bottom: 1px solid #C2C2C2;">Kelola Pengguna</li>
       <li class="nav-item">
         <a class="nav-link" style="cursor: pointer;" onclick="window.location.href='users'">
@@ -14,6 +14,8 @@
           <span class="menu-title">Users</span>
         </a>
       </li>
+    <?php }
+    if ($_SESSION['data-user']['role'] <= 2) { ?>
       <li class="nav-item nav-category" style="border-bottom: 1px solid #C2C2C2;">Kelola Penjualan</li>
     <?php } ?>
     <li class="nav-item">

@@ -37,11 +37,6 @@ $_SESSION["page-url"] = "users";
                       <h3><?= $_SESSION["page-name"] ?></h3>
                     </li>
                   </ul>
-                  <div>
-                    <div class="btn-wrapper">
-                      <a href="#" class="btn btn-primary text-white me-0 btn-sm rounded-0" data-bs-toggle="modal" data-bs-target="#tambah">Tambah</a>
-                    </div>
-                  </div>
                 </div>
                 <div class="card rounded-0 mt-3">
                   <div class="card-body table-responsive">
@@ -51,6 +46,7 @@ $_SESSION["page-url"] = "users";
                           <th scope="col" class="text-center">#</th>
                           <th scope="col" class="text-center">Nama</th>
                           <th scope="col" class="text-center">Email</th>
+                          <th scope="col" class="text-center">Role</th>
                           <th scope="col" class="text-center">Tgl Buat</th>
                           <th scope="col" class="text-center">Tgl Ubah</th>
                           <th scope="col" class="text-center">Aksi</th>
@@ -64,6 +60,7 @@ $_SESSION["page-url"] = "users";
                               <th scope="row"><?= $no; ?></th>
                               <td><?= $row["username"] ?></td>
                               <td><?= $row["email"] ?></td>
+                              <td><?= $row["role"] ?></td>
                               <td>
                                 <div class="badge badge-opacity-success">
                                   <?php $dateCreate = date_create($row["created_at"]);
@@ -97,6 +94,15 @@ $_SESSION["page-url"] = "users";
                                             <div class="mb-3">
                                               <label for="email" class="form-label">Email <small class="text-danger">*</small></label>
                                               <input type="email" name="email" value="<?= $row["email"] ?>" class="form-control text-center" id="email" placeholder="Email" required>
+                                            </div>
+                                            <div class="mb-3">
+                                              <label for="id-role" class="form-label">Role <small class="text-danger">*</small></label>
+                                              <select name="id-role" class="form-select" aria-label="Default select example" required>
+                                                <option selected value="">Pilih Role</option>
+                                                <?php foreach ($users_role as $row_role) : ?>
+                                                  <option value="<?= $row_role['id_role'] ?>"><?= $row_role['role'] ?></option>
+                                                <?php endforeach; ?>
+                                              </select>
                                             </div>
                                           </div>
                                           <div class="modal-footer justify-content-center border-top-0">
@@ -147,38 +153,6 @@ $_SESSION["page-url"] = "users";
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal fade" id="tambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header border-bottom-0 shadow">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Pengguna</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <form action="" method="post" name="random_form">
-                <div class="modal-body text-center">
-                  <div class="mb-3">
-                    <label for="username" class="form-label">Nama <small class="text-danger">*</small></label>
-                    <input type="text" name="username" class="form-control text-center" id="username" minlength="3" placeholder="Nama" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="email" class="form-label">Email <small class="text-danger">*</small></label>
-                    <input type="email" name="email" class="form-control text-center" id="email" placeholder="Email" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="password" class="form-label">Password <small class="text-danger">*</small></label>
-                    <input type="text" name="password" class="form-control text-center" id="kata-sandi" minlength="8" placeholder="Password" required>
-                    <input type="button" value="Generate Password" class="btn btn-link btn-sm text-decoration-none" onclick="random_all();">
-                  </div>
-                </div>
-                <div class="modal-footer border-top-0 justify-content-center">
-                  <button type="button" class="btn btn-secondary btn-sm rounded-0" data-bs-dismiss="modal">Batal</button>
-                  <button type="submit" name="tambah-user" class="btn btn-primary btn-sm rounded-0">Simpan</button>
-                </div>
-              </form>
             </div>
           </div>
         </div>

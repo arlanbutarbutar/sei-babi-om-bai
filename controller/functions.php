@@ -122,22 +122,6 @@ if (isset($_SESSION["data-user"])) {
     return mysqli_affected_rows($conn);
   }
   if ($_SESSION['data-user']['role'] <= 2) {
-    function add_user($data)
-    {
-      global $conn;
-      $username = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data["username"]))));
-      $email = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data["email"]))));
-      $checkEmail = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
-      if (mysqli_num_rows($checkEmail) > 0) {
-        $_SESSION["message-danger"] = "Maaf, email yang anda masukan sudah terdaftar.";
-        $_SESSION["time-message"] = time();
-        return false;
-      }
-      $password = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data["password"]))));
-      $password = password_hash($password, PASSWORD_DEFAULT);
-      mysqli_query($conn, "INSERT INTO users(username,email,password) VALUES('$username','$email','$password')");
-      return mysqli_affected_rows($conn);
-    }
     function edit_user($data)
     {
       global $conn;
@@ -153,7 +137,8 @@ if (isset($_SESSION["data-user"])) {
           return false;
         }
       }
-      mysqli_query($conn, "UPDATE users SET username='$username', email='$email', updated_at=CURRENT_TIMESTAMP WHERE id_user='$id_user'");
+      $id_role=htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-role']))));
+      mysqli_query($conn, "UPDATE users SET id_role='$id_role', username='$username', email='$email', updated_at=CURRENT_TIMESTAMP WHERE id_user='$id_user'");
       return mysqli_affected_rows($conn);
     }
     function delete_user($data)

@@ -107,7 +107,8 @@ if (isset($_SESSION["data-user"])) {
     $count_kontak = mysqli_num_rows($count_kontak);
     $pemesananDash = mysqli_query($conn, "SELECT pemesanan.*, users.username, users.email, users.telp, menu.*, pemesanan_status.status_pemesanan FROM pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status ORDER BY pemesanan.id_pemesanan DESC LIMIT 5");
 
-    $users = mysqli_query($conn, "SELECT * FROM users WHERE id_user!='$idUser' ORDER BY id_user DESC");
+    $users_role=mysqli_query($conn, "SELECT * FROM users_role");
+    $users = mysqli_query($conn, "SELECT * FROM users JOIN users_role ON users.id_role=users_role.id_role WHERE users.id_user!='$idUser' ORDER BY users.id_user DESC");
     if (isset($_POST["tambah-user"])) {
       if (add_user($_POST) > 0) {
         $_SESSION["message-success"] = "Pengguna " . $_POST["username"] . " berhasil ditambahkan.";
@@ -211,7 +212,7 @@ if (isset($_SESSION["data-user"])) {
 
       // Mengambil lokasi saat ini
       $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL, 'https://ipinfo.io/180.249.165.166?token=7ac8e9c9be73ba');
+      curl_setopt($ch, CURLOPT_URL, 'https://ipinfo.io/' . $_SERVER["REMOTE_ADDR"] . '?token=7ac8e9c9be73ba');
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
       $result = curl_exec($ch);
       if (curl_errno($ch)) {
