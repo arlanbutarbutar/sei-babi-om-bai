@@ -1,4 +1,3 @@
-
 <?php require_once("../controller/script.php");
 require_once("redirect.php");
 $_SESSION["page-name"] = "Dashboard";
@@ -8,7 +7,9 @@ $_SESSION["page-url"] = "./";
 <!DOCTYPE html>
 <html lang="en">
 
-<head><?php require_once("../resources/dash-header.php") ?></head>
+<head>
+  <?php require_once("../resources/dash-header.php") ?>
+</head>
 
 <body>
   <?php if (isset($_SESSION["message-success"])) { ?>
@@ -44,7 +45,9 @@ $_SESSION["page-url"] = "./";
                     </div>
                   </div>
                 </div>
-                <div class="data-main"></div>
+                <?php if ($_SESSION['data-user']['role'] <= 2) { ?>
+                  <div class="data-main"></div>
+                <?php } ?>
               </div>
             </div>
           </div>

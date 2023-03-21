@@ -1,8 +1,5 @@
 <?php require_once("../controller/script.php");
-if (isset($_SESSION["data-user"])) {
-  header("Location: ../views/");
-  exit();
-}
+require_once("redirect.php");
 $_SESSION["page-name"] = "Daftar";
 $_SESSION["page-url"] = "daftar";
 ?>
@@ -56,7 +53,7 @@ $_SESSION["page-url"] = "daftar";
                   <label for="telp">Telp</label>
                   <input type="number" name="telp" value="<?php if (isset($_POST['telp'])) {
                                                             echo $_POST['telp'];
-                                                          } ?>" id="telp" class="form-control text-center" placeholder="Telp" max="12" required>
+                                                          } ?>" id="telp" class="form-control text-center" placeholder="Telp" maxlength="12" required>
                 </div>
                 <div class="form-group">
                   <label for="alamat">Alamat</label>

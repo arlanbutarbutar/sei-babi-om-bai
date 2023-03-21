@@ -1,0 +1,29 @@
+[20-Mar-2023 15:23:50 Asia/Jakarta] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/time.php:1) in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/auth/redirect.php on line 3
+[20-Mar-2023 15:24:09 Asia/Jakarta] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/time.php:1) in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/auth/redirect.php on line 3
+[20-Mar-2023 11:51:11 UTC] PHP Warning:  mysqli_connect(): (HY000/2002): No such file or directory in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/db_connect.php on line 2
+[20-Mar-2023 11:51:11 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/script.php on line 30
+[20-Mar-2023 11:51:11 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/script.php on line 31
+[20-Mar-2023 12:01:26 UTC] PHP Warning:  mysqli_connect(): (HY000/2002): Connection refused in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/db_connect.php on line 2
+[20-Mar-2023 12:01:26 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/script.php on line 30
+[20-Mar-2023 12:01:26 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/script.php on line 31
+[20-Mar-2023 12:01:26 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 39
+[20-Mar-2023 12:01:26 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 40
+[20-Mar-2023 12:01:26 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 43
+[20-Mar-2023 12:01:26 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 44
+[20-Mar-2023 13:12:27 UTC] PHP Warning:  mysqli_connect(): (HY000/2002): No such file or directory in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/db_connect.php on line 2
+[20-Mar-2023 13:12:27 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/script.php on line 30
+[20-Mar-2023 13:12:27 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/script.php on line 31
+[20-Mar-2023 13:12:34 UTC] PHP Warning:  mysqli_connect(): (HY000/2002): No such file or directory in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/db_connect.php on line 2
+[20-Mar-2023 13:12:34 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/script.php on line 30
+[20-Mar-2023 13:12:34 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/script.php on line 31
+[20-Mar-2023 13:12:34 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 39
+[20-Mar-2023 13:12:34 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 40
+[20-Mar-2023 13:12:34 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 43
+[20-Mar-2023 13:12:34 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 44
+[20-Mar-2023 13:12:41 UTC] PHP Warning:  mysqli_connect(): (HY000/2002): No such file or directory in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/db_connect.php on line 2
+[20-Mar-2023 13:12:41 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/script.php on line 30
+[20-Mar-2023 13:12:41 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/script.php on line 31
+[20-Mar-2023 13:12:41 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 39
+[20-Mar-2023 13:12:41 UTC] PHP Warning:  mysqli_real_escape_string() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 40
+[20-Mar-2023 13:12:41 UTC] PHP Warning:  mysqli_query() expects parameter 1 to be mysqli, bool given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 43
+[20-Mar-2023 13:12:41 UTC] PHP Warning:  mysqli_num_rows() expects parameter 1 to be mysqli_result, null given in /home/jhdbfgel/public_html/erin.tugasakhir.my.id/controller/functions.php on line 44
