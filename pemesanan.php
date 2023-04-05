@@ -97,6 +97,7 @@ $_SESSION["page-url"] = "pemesanan";
                               <?php if ($row['id_status'] == 1) { ?>
                                 <form action="" method="post">
                                   <input type="hidden" name="id-pemesanan" value="<?= $row['id_pemesanan'] ?>">
+                                  <input type="hidden" name="id-menu" value="<?= $row['id_menu'] ?>">
                                   <input type="hidden" name="id-order" value="<?= $row['id_order'] ?>">
                                   <input type="hidden" name="jumlah" value="<?= $row['jumlah'] ?>">
                                   <input type="hidden" name="total" value="<?= $row['total_harga'] ?>">
@@ -108,6 +109,7 @@ $_SESSION["page-url"] = "pemesanan";
                               <?php } else if ($row['id_status'] == 2) { ?>
                                 <form action="" method="post">
                                   <input type="hidden" name="id-pemesanan" value="<?= $row['id_pemesanan'] ?>">
+                                  <input type="hidden" name="id-menu" value="<?= $row['id_menu'] ?>">
                                   <input type="hidden" name="id-order" value="<?= $row['id_order'] ?>">
                                   <input type="hidden" name="jumlah" value="<?= $row['jumlah'] ?>">
                                   <input type="hidden" name="total" value="<?= $row['total_harga'] ?>">

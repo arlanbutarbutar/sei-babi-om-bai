@@ -140,7 +140,7 @@ function printExampleWarningMessage()
 
           <div class="col-md-6">
             <div class="single_abouts_text wow slideInRight" data-wow-duration="1s">
-              <h3><?= $row['nama_makanan'] ?></h3>
+              <h3 style="color: #fff;"><?= $row['nama_makanan'] ?></h3>
               <button id="pay-button" class="btn btn-success" style="padding: 20px;font-size: 18px;">Lakukan Pembayaran Sekarang</button>
             </div>
           </div>

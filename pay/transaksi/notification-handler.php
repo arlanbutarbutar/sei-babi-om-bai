@@ -14,8 +14,7 @@ printExampleWarningMessage();
 
 try {
     $notif = new Notification();
-}
-catch (\Exception $e) {
+} catch (\Exception $e) {
     exit($e->getMessage());
 }
 
@@ -25,9 +24,11 @@ $type = $notif->payment_type;
 $order_id = $notif->order_id;
 $fraud = $notif->fraud_status;
 require_once("../../controller/script.php");
-
+$id_menu = $_SESSION['data-pesan']['menuID'];
+$jumlah = $_SESSION['data-pesan']['jumlah'];
 if ($transaction == 'settlement') {
     mysqli_query($conn, "UPDATE pemesanan SET id_status='3' WHERE id_order='$order_id'");
+    mysqli_query($conn, "UPDATE menu SET stok-$jumlah WHERE id_menu='$id_menu'");
 } else if ($transaction == 'pending') {
     mysqli_query($conn, "UPDATE pemesanan SET id_status='2' WHERE id_order='$order_id'");
 } else if ($transaction == 'deny') {
@@ -38,11 +39,12 @@ if ($transaction == 'settlement') {
     mysqli_query($conn, "UPDATE pemesanan SET id_status='1' WHERE id_order='$order_id'");
 }
 
-function printExampleWarningMessage() {
+function printExampleWarningMessage()
+{
     if ($_SERVER['REQUEST_METHOD'] != 'POST') {
         echo 'Notification-handler are not meant to be opened via browser / GET HTTP method. It is used to handle Midtrans HTTP POST notification / webhook.';
     }
-    if (strpos(Config::$serverKey, 'your ') != false ) {
+    if (strpos(Config::$serverKey, 'your ') != false) {
         echo "<code>";
         echo "<h4>Please set your server key from sandbox</h4>";
         echo "In file: " . __FILE__;
@@ -50,5 +52,5 @@ function printExampleWarningMessage() {
         echo "<br>";
         echo htmlspecialchars('Config::$serverKey = \'SB-Mid-server-ZYGeFl_4dueZejnTldp3KNRY\';');
         die();
-    }   
+    }
 }

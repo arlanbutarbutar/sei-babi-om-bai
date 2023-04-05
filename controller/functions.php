@@ -8,8 +8,8 @@ function contact($data)
   $messages = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['message']))));
 
   require("mail-visitor.php");
-  // $to       = 'erinotemusu2506@gmail.com';
-  $to       = 'arlan270899@gmail.com';
+  $to       = 'erinotemusu2506@gmail.com';
+  // $to       = 'arlan270899@gmail.com';
   $subject  = "Ada kontak dari Sei Babi Om Ba'i menunggumu!!";
   $message  = "<!doctype html>
   <html>
@@ -110,6 +110,30 @@ if (!isset($_SESSION["data-user"])) {
   }
 }
 if (isset($_SESSION["data-user"])) {
+  function compressImage($source, $destination, $quality)
+  {
+    // mendapatkan info image
+    $imgInfo = getimagesize($source);
+    $mime = $imgInfo['mime'];
+    // membuat image baru
+    switch ($mime) {
+        // proses kode memilih tipe tipe image 
+      case 'image/jpeg':
+        $image = imagecreatefromjpeg($source);
+        break;
+      case 'image/png':
+        $image = imagecreatefrompng($source);
+        break;
+      default:
+        $image = imagecreatefromjpeg($source);
+    }
+
+    // Menyimpan image dengan ukuran yang baru
+    imagejpeg($image, $destination, $quality);
+
+    // Return image
+    return $destination;
+  }
   function edit_profile($data)
   {
     global $conn, $idUser;
@@ -137,7 +161,7 @@ if (isset($_SESSION["data-user"])) {
           return false;
         }
       }
-      $id_role=htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-role']))));
+      $id_role = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-role']))));
       mysqli_query($conn, "UPDATE users SET id_role='$id_role', username='$username', email='$email', updated_at=CURRENT_TIMESTAMP WHERE id_user='$id_user'");
       return mysqli_affected_rows($conn);
     }
@@ -152,33 +176,84 @@ if (isset($_SESSION["data-user"])) {
     }
     function add_menu($data)
     {
-      global $conn;
+      global $conn, $baseURL;
       $id_status = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-status']))));
+      $path = "../assets/images/menu/";
+      $fileName = basename($_FILES["avatar"]["name"]);
+      $fileName = str_replace(" ", "-", $fileName);
+      $fileName_encrypt = crc32($fileName);
+      $ekstensiGambar = explode('.', $fileName);
+      $ekstensiGambar = strtolower(end($ekstensiGambar));
+      $imageUploadPath = $path . $fileName_encrypt . "." . $ekstensiGambar;
+      $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+      $allowTypes = array('jpg', 'png', 'jpeg');
+      if (in_array($fileType, $allowTypes)) {
+        $imageTemp = $_FILES["avatar"]["tmp_name"];
+        compressImage($imageTemp, $imageUploadPath, 75);
+        $url_image = $baseURL . "/assets/images/menu/" . $fileName_encrypt . "." . $ekstensiGambar;
+      } else {
+        $_SESSION['message-danger'] = "Sorry, only JPG, JPEG and PNG image files are allowed.";
+        $_SESSION['time-message'] = time();
+        return false;
+      }
       $nama = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['nama']))));
       $deskripsi = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['deskripsi']))));
       $harga = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['harga']))));
       $stok = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['stok']))));
 
-      mysqli_query($conn, "INSERT INTO menu(id_status,nama_makanan,deskripsi,harga,stok) VALUES('$id_status','$nama','$deskripsi','$harga','$stok')");
+      mysqli_query($conn, "INSERT INTO menu(id_status,image,nama_makanan,deskripsi,harga,stok) VALUES('$id_status','$url_image','$nama','$deskripsi','$harga','$stok')");
       return mysqli_affected_rows($conn);
     }
     function edit_menu($data)
     {
-      global $conn;
+      global $conn, $baseURL;
       $id_menu = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-menu']))));
       $id_status = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-status']))));
+      $avatar = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['avatarOld']))));
+      if (!empty($_FILES['avatar']["name"])) {
+        $path = "../assets/images/menu/";
+        $fileName = basename($_FILES["avatar"]["name"]);
+        $fileName = str_replace(" ", "-", $fileName);
+        $fileName_encrypt = crc32($fileName);
+        $ekstensiGambar = explode('.', $fileName);
+        $ekstensiGambar = strtolower(end($ekstensiGambar));
+        $imageUploadPath = $path . $fileName_encrypt . "." . $ekstensiGambar;
+        $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+        $allowTypes = array('jpg', 'png', 'jpeg');
+        if (in_array($fileType, $allowTypes)) {
+          $imageTemp = $_FILES["avatar"]["tmp_name"];
+          compressImage($imageTemp, $imageUploadPath, 75);
+          $unwanted_characters = $baseURL . "/assets/images/menu/";
+          $remove_avatar = str_replace($unwanted_characters, "", $avatar);
+          unlink($path . $remove_avatar);
+          $url_image = $baseURL . "/assets/images/menu/" . $fileName_encrypt . "." . $ekstensiGambar;
+        } else {
+          $_SESSION['message-danger'] = "Sorry, only JPG, JPEG and PNG image files are allowed.";
+          $_SESSION['time-message'] = time();
+          return false;
+        }
+      } else if (empty($_FILE['avatar']["name"])) {
+        $url_image = $avatar;
+      }
       $nama = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['nama']))));
       $deskripsi = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['deskripsi']))));
       $harga = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['harga']))));
       $stok = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['stok']))));
 
-      mysqli_query($conn, "UPDATE menu SET id_status='$id_status', nama_makanan='$nama', deskripsi='$deskripsi', harga='$harga', stok='$stok', updated_at=CURRENT_TIMESTAMP WHERE id_menu='$id_menu'");
+      mysqli_query($conn, "UPDATE menu SET id_status='$id_status', image='$url_image', nama_makanan='$nama', deskripsi='$deskripsi', harga='$harga', stok='$stok', updated_at=CURRENT_TIMESTAMP WHERE id_menu='$id_menu'");
       return mysqli_affected_rows($conn);
     }
     function delete_menu($data)
     {
-      global $conn;
+      global $conn, $baseURL;
       $id_menu = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-menu']))));
+      $avatar = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['avatarOld']))));
+
+      $path = "../assets/images/menu/";
+      $unwanted_characters = $baseURL . "/assets/images/menu/";
+      $remove_avatar = str_replace($unwanted_characters, "", $avatar);
+      unlink($path . $remove_avatar);
+
       mysqli_query($conn, "DELETE FROM menu WHERE id_menu='$id_menu'");
       return mysqli_affected_rows($conn);
     }

@@ -106,7 +106,8 @@ $_SESSION["page-url"] = "./";
                 <?php if (mysqli_num_rows($menu_makanan) > 0) {
                   while ($row = mysqli_fetch_assoc($menu_makanan)) { ?>
                     <div class="col-md-6" style="margin-bottom: 30px;">
-                      <div class="single_features_text" style="width: 500px;color: #fff;">
+                      <div class="single_features_text" style="width: 400px;color: #fff;">
+                        <img src="<?= $row['image'] ?>" style="width: 100%;height: 200px;object-fit: cover;margin-bottom: 10px;" alt="Gambar Tidak Ditemukan">
                         <h3><?= $row['nama_makanan'] ?></h3>
                         <p><?= $row['deskripsi'] ?></p>
                         <p>Rp.<?= number_format($row['harga']) . "/" . $row['satuan'] ?></p>

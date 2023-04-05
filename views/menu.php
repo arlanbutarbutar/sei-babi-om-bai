@@ -69,7 +69,7 @@ $_SESSION["page-url"] = "menu";
                             while ($row = mysqli_fetch_assoc($menu)) { ?>
                               <tr>
                                 <th scope="row"><?= $no; ?></th>
-                                <td><?= $row["nama_makanan"] ?></td>
+                                <td><img src="<?= $row['image'] ?>" style="width: 50px;height: 50px;margin-right: 10px;" class="rounded-circle" alt="Profile Menu"> <?= $row["nama_makanan"] ?></td>
                                 <td><?= $row["deskripsi"] ?></td>
                                 <td>Rp.<?= number_format($row["harga"]) ?></td>
                                 <td><?= $row["status_menu"] ?></td>
@@ -98,8 +98,12 @@ $_SESSION["page-url"] = "menu";
                                               <h5 class="modal-title" id="exampleModalLabel">Ubah menu <?= $row["nama_makanan"] ?></h5>
                                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form action="" method="POST">
+                                            <form action="" method="POST" enctype="multipart/form-data">
                                               <div class="modal-body text-center">
+                                                <div class="mb-3">
+                                                  <label for="avatar" class="form-label">Upload Gambar</label>
+                                                  <input type="file" name="avatar" class="form-control" id="avatar" placeholder="Upload Gambar" required>
+                                                </div>
                                                 <div class="mb-3">
                                                   <label for="nama" class="form-label">Nama Makanan <small class="text-danger">*</small></label>
                                                   <input type="text" name="nama" value="<?= $row['nama_makanan'] ?>" class="form-control text-center" id="nama" minlength="3" placeholder="Nama Makanan" required>
@@ -128,6 +132,7 @@ $_SESSION["page-url"] = "menu";
                                               <div class="modal-footer justify-content-center border-top-0">
                                                 <input type="hidden" name="id-menu" value="<?= $row["id_menu"] ?>">
                                                 <input type="hidden" name="namaOld" value="<?= $row["nama_makanan"] ?>">
+                                                <input type="hidden" name="avatarOld" value="<?= $row["image"] ?>">
                                                 <button type="button" class="btn btn-secondary btn-sm rounded-0 border-0" style="height: 30px;" data-bs-dismiss="modal">Batal</button>
                                                 <button type="submit" name="ubah-menu" class="btn btn-warning btn-sm rounded-0 border-0" style="height: 30px;">Ubah</button>
                                               </div>
@@ -155,6 +160,7 @@ $_SESSION["page-url"] = "menu";
                                               <form action="" method="POST">
                                                 <input type="hidden" name="id-menu" value="<?= $row["id_menu"] ?>">
                                                 <input type="hidden" name="namaOld" value="<?= $row["nama_makanan"] ?>">
+                                                <input type="hidden" name="avatarOld" value="<?= $row["image"] ?>">
                                                 <button type="submit" name="hapus-menu" class="btn btn-danger btn-sm rounded-0 text-white border-0" style="height: 30px;">Hapus</button>
                                               </form>
                                             </div>
@@ -185,8 +191,12 @@ $_SESSION["page-url"] = "menu";
                 <h5 class="modal-title" id="exampleModalLabel">Tambah Menu</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <form action="" method="post" name="random_form">
+              <form action="" method="post" name="random_form" enctype="multipart/form-data">
                 <div class="modal-body text-center">
+                  <div class="mb-3">
+                    <label for="avatar" class="form-label">Upload Gambar</label>
+                    <input type="file" name="avatar" class="form-control" id="avatar" placeholder="Upload Gambar" required>
+                  </div>
                   <div class="mb-3">
                     <label for="nama" class="form-label">Nama Makanan <small class="text-danger">*</small></label>
                     <input type="text" name="nama" class="form-control text-center" id="nama" minlength="3" placeholder="Nama Makanan" required>

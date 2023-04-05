@@ -162,14 +162,14 @@ if (isset($_SESSION["data-user"])) {
     }
 
     $pemesanan = mysqli_query($conn, "SELECT pemesanan.*, users.username, users.email, users.telp, menu.*, pemesanan_status.status_pemesanan FROM pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status ORDER BY pemesanan.id_pemesanan DESC");
-    if (isset($_POST["ubah-pemesanan"])) {
-      if (edit_pemesanan($_POST) > 0) {
-        $_SESSION["message-success"] = "Pemesanan " . $_POST["nama"] . " berhasil diubah.";
-        $_SESSION["time-message"] = time();
-        header("Location: " . $_SESSION["page-url"]);
-        exit();
-      }
-    }
+    // if (isset($_POST["ubah-pemesanan"])) {
+    //   if (edit_pemesanan($_POST) > 0) {
+    //     $_SESSION["message-success"] = "Pemesanan " . $_POST["nama"] . " berhasil diubah.";
+    //     $_SESSION["time-message"] = time();
+    //     header("Location: " . $_SESSION["page-url"]);
+    //     exit();
+    //   }
+    // }
 
     if (isset($_POST["ubah-tentang"])) {
       if (edit_tentang($_POST) > 0) {
@@ -254,6 +254,7 @@ if (isset($_SESSION["data-user"])) {
       }
       $_SESSION['data-pesan'] = [
         'orderID' => $orderID,
+        'menuID' => $id_menu,
         'jumlah' => $jumlah,
         'total' => $total_harga,
         'username' => $username,
@@ -295,6 +296,7 @@ if (isset($_SESSION["data-user"])) {
     }
     if (isset($_POST['bayar-sekarang'])) {
       $id_order = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['id-order']))));
+      $id_menu = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['id-menu']))));
       $jumlah = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['jumlah']))));
       $total = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['total']))));
       $username = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_SESSION['data-user']['username']))));
@@ -302,6 +304,7 @@ if (isset($_SESSION["data-user"])) {
 
       $_SESSION['data-pesan'] = [
         'orderID' => $id_order,
+        'menuID' => $id_menu,
         'jumlah' => $jumlah,
         'total' => $total,
         'username' => $username,
