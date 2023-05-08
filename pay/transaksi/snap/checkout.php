@@ -15,9 +15,9 @@ if (!isset($_SESSION['data-pesan']['orderID'])) {
   $username = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_SESSION['data-pesan']['username']))));
   $telp = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_SESSION['data-pesan']['telp']))));
 
-  $putData = mysqli_query($conn, "SELECT * FROM pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu WHERE pemesanan.id_order='$orderID'");
+  $putData = mysqli_query($conn, "SELECT * FROM pemesanan JOIN ongkir ON pemesanan.id_pemesanan=ongkir.id_pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu WHERE pemesanan.id_order='$orderID'");
   $row = mysqli_fetch_assoc($putData);
-  $gross_amount = ($row['ongkir'] * $row['jumlah']) + $row['total_harga'];
+  $harga = $row['harga'] + $row['ongkir'];
 }
 
 Config::$serverKey = 'SB-Mid-server-ZYGeFl_4dueZejnTldp3KNRY';
@@ -28,13 +28,13 @@ Config::$isSanitized = Config::$is3ds = true;
 // Required
 $transaction_details = array(
   'order_id' => $orderID,
-  'gross_amount' => $gross_amount,
+  'gross_amount' => $total_harga,
 );
 // Optional
 $item_details = array(
   array(
     'id' => $row['id_menu'],
-    'price' => $row['harga'] + $row['ongkir'],
+    'price' => $harga,
     'quantity' => $jumlah,
     'name' => $row['nama_makanan']
   ),
@@ -77,7 +77,7 @@ function printExampleWarningMessage()
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <?php require_once("../../../resources/header.php"); ?>
@@ -96,58 +96,24 @@ function printExampleWarningMessage()
   if (isset($_SESSION["message-danger"])) { ?>
     <div class="message-danger" data-message-danger="<?= $_SESSION["message-danger"] ?>"></div>
   <?php } ?>
-  <div class="preloader">
-    <div class="loaded">&nbsp;</div>
-  </div>
-  <header id="home" class="navbar-fixed-top">
-    <div class="main_menu_bg">
-      <div class="container">
-        <div class="row">
-          <nav class="navbar navbar-default">
-            <div class="container-fluid">
-              <!-- Brand and toggle get grouped for better mobile display -->
-              <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="<?= $baseURL ?>/" style="color: #fff;font-weight: bold;font-size: 24px;">Sei Babi Om Ba'i</a>
-              </div>
 
-              <!-- Collect the nav links, forms, and other content for toggling -->
-              <?php require_once("../../../resources/navbar.php"); ?>
-              <!-- /.navbar-collapse -->
-            </div>
-            <!-- /.container-fluid -->
-          </nav>
-        </div>
-      </div>
+  <!-- header section starts -->
+  <?php require_once("../../../resources/navbar.php"); ?>
+  <!-- header section ends -->
+
+  <!-- contact section starts  -->
+  <section class="contact" id="contact">
+    <h1 class="heading"> <span>Checkout</h1>
+    <img src="<?= $_SESSION['data-pesan']['image_url'] ?>" style="width: 100%;height: 500px;object-fit: cover;margin-bottom: 10px;" alt="Gambar Tidak Ditemukan">
+    <div>
+      <h3 style="color: #fff;font-size: 32px;"><?= $row['nama_makanan'] ?></h3><br><br>
     </div>
-  </header>
-  <!-- End Header Section -->
-
-  <section class="abouts">
-    <div class="container">
-      <div class="row">
-        <div class="abouts_content">
-          <div class="col-md-6">
-            <div class="single_abouts_text text-center wow slideInLeft" data-wow-duration="1s">
-              <img src="<?= $baseURL ?>/assets/images/photo.jpg" alt="" />
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <div class="single_abouts_text wow slideInRight" data-wow-duration="1s">
-              <h3 style="color: #fff;"><?= $row['nama_makanan'] ?></h3>
-              <button id="pay-button" class="btn btn-success" style="padding: 20px;font-size: 18px;">Lakukan Pembayaran Sekarang</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div>
+      <button id="pay-button" class="btn" style="color: #000;padding: 15px;font-size: 18px;">Bayar</button>
     </div>
   </section>
+  <!-- contact section ends -->
+
   <!-- TODO: Remove ".sandbox" from script src URL for production environment. Also input your client key in "data-client-key" -->
   <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php echo Config::$clientKey; ?>"></script>
   <script type="text/javascript">

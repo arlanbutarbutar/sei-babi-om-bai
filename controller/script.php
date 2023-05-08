@@ -28,7 +28,8 @@ if (isset($_SESSION["time-message"])) {
 $baseURL = "http://$_SERVER[HTTP_HOST]/apps/sei-babi-om-bai";
 
 $tentang = mysqli_query($conn, "SELECT * FROM ui_about");
-$menu_makanan = mysqli_query($conn, "SELECT * FROM menu WHERE id_status='2' ORDER BY id_menu DESC");
+$menu_makanStay = mysqli_query($conn, "SELECT * FROM menu WHERE id_status='2' ORDER BY id_menu DESC");
+$menu_makanSend = mysqli_query($conn, "SELECT * FROM menu WHERE id_status='2' ORDER BY id_menu DESC");
 
 if (isset($_POST['contact'])) {
   if (contact($_POST) > 0) {
@@ -107,16 +108,8 @@ if (isset($_SESSION["data-user"])) {
     $count_kontak = mysqli_num_rows($count_kontak);
     $pemesananDash = mysqli_query($conn, "SELECT pemesanan.*, users.username, users.email, users.telp, menu.*, pemesanan_status.status_pemesanan FROM pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status ORDER BY pemesanan.id_pemesanan DESC LIMIT 5");
 
-    $users_role=mysqli_query($conn, "SELECT * FROM users_role");
+    $users_role = mysqli_query($conn, "SELECT * FROM users_role");
     $users = mysqli_query($conn, "SELECT * FROM users JOIN users_role ON users.id_role=users_role.id_role WHERE users.id_user!='$idUser' ORDER BY users.id_user DESC");
-    if (isset($_POST["tambah-user"])) {
-      if (add_user($_POST) > 0) {
-        $_SESSION["message-success"] = "Pengguna " . $_POST["username"] . " berhasil ditambahkan.";
-        $_SESSION["time-message"] = time();
-        header("Location: " . $_SESSION["page-url"]);
-        exit();
-      }
-    }
     if (isset($_POST["ubah-user"])) {
       if (edit_user($_POST) > 0) {
         $_SESSION["message-success"] = "Pengguna " . $_POST["usernameOld"] . " berhasil diubah.";
@@ -190,77 +183,68 @@ if (isset($_SESSION["data-user"])) {
       $jumlah = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['jumlah']))));
       $harga = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['harga']))));
       $orderID = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
+      $image_url = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['image_url']))));
       $username = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_SESSION['data-user']['username']))));
       $telp = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_SESSION['data-user']['telp']))));
-      $alamat = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_SESSION['data-user']['alamat']))));
-      function hitungOngkir($jarak)
-      {
-        // Harga per kilometer
-        $hargaPerKm = 1500;
 
-        // Hitung ongkos kirim
-        $ongkir = $jarak * $hargaPerKm;
-
-        // Kembalikan hasil
-        return $ongkir;
+      $checkID_pemesanan = mysqli_query($conn, "SELECT * FROM pemesanan ORDER BY id_pemesanan DESC LIMIT 1");
+      if (mysqli_num_rows($checkID_pemesanan) > 0) {
+        $row = mysqli_fetch_assoc($checkID_pemesanan);
+        $id_pemesanan = $row['id_pemesanan'] + 1;
+      } else {
+        $id_pemesanan = 1;
       }
-      // latitude dan longitude dalam satu kalimat
-      $latlon1 = "-10.2909434,123.7266022";
 
-      // memisahkan nilai latitude1 dan longitude1
-      list($lat1, $lon1) = explode(",", $latlon1);
-
-      // Mengambil lokasi saat ini
-      $ch = curl_init();
-      curl_setopt($ch, CURLOPT_URL, 'https://ipinfo.io/' . $_SERVER["REMOTE_ADDR"] . '?token=7ac8e9c9be73ba');
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-      $result = curl_exec($ch);
-      if (curl_errno($ch)) {
-        echo 'Error:' . curl_error($ch);
-      }
-      curl_close($ch);
-      $geolocation_json = json_decode($result);
-      $latlon2 = $geolocation_json->loc;
-
-      // memisahkan nilai latitude2 dan longitude2
-      list($lat2, $lon2) = explode(",", $latlon2);
-
-      // jari-jari bumi dalam meter
-      $R = 6371000;
-
-      // menghitung perbedaan latitude dan longitude
-      $dLat = deg2rad($lat2 - $lat1);
-      $dLon = deg2rad($lon2 - $lon1);
-
-      // menghitung jarak menggunakan formula Haversine
-      $a = sin($dLat / 2) * sin($dLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLon / 2) * sin($dLon / 2);
-      $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
-      $d = $R * $c;
-
-      // hasil jarak dalam kilometer
-      $d_km = $d / 1000;
-
-      // Membulatkan hasil koma
-      $num_rounded = round($d_km, 0);
-
-      $jarak = $num_rounded; // Jarak dalam kilometer
-      $ongkir = hitungOngkir($jarak);
-      $total_harga = ($jumlah * $harga) + ($ongkir * $jumlah);
-
-      mysqli_query($conn, "INSERT INTO pemesanan(id_order,id_menu,id_user,nama,alamat,jumlah,harga,ongkir,total_harga) VALUES('$orderID','$id_menu','$idUser','$username','$alamat','$jumlah','$harga','$ongkir','$total_harga')");
+      mysqli_query($conn, "INSERT INTO pemesanan(id_pemesanan,id_order,id_menu,id_user,nama,jumlah,harga) VALUES('$id_pemesanan','$orderID','$id_menu','$idUser','$username','$jumlah','$harga')");
       if (isset($_POST['id-keranjang'])) {
         $id_keranjang = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['id-keranjang']))));
         mysqli_query($conn, "DELETE FROM keranjang WHERE id_keranjang='$id_keranjang'");
       }
       $_SESSION['data-pesan'] = [
+        'pemesananID' => $id_pemesanan,
         'orderID' => $orderID,
         'menuID' => $id_menu,
+        'image_url' => $image_url,
         'jumlah' => $jumlah,
-        'total' => $total_harga,
+        'harga' => $harga,
         'username' => $username,
         'telp' => $telp,
       ];
-      header("Location: pay/transaksi/snap/checkout");
+      header("Location: pay/transaksi/snap/");
+      exit();
+    }
+    if (isset($_POST['checkout'])) {
+      $pemesananID = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['pemesananID']))));
+      $menuID = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['menuID']))));
+      $jumlah = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['jumlah']))));
+      $harga = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['harga']))));
+      $orderID = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['orderID']))));
+      $image_url = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['image_url']))));
+      $username = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['username']))));
+      $telp = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['telp']))));
+      $alamat = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['alamat']))));
+      $totalberat = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['totalberat']))));
+      $provinsi = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['provinsi']))));
+      $distrik = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['distrik']))));
+      $tipe = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['tipe']))));
+      $kodepos = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['kodepos']))));
+      $ekspedisi = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['ekspedisi']))));
+      $paket = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['paket']))));
+      $ongkir = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['ongkir']))));
+      $estimasi = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['estimasi']))));
+      $totalharga = $jumlah * $harga + $ongkir;
+      mysqli_query($conn, "UPDATE pemesanan SET alamat='$alamat', total_harga='$totalharga' WHERE id_order='$orderID'");
+      mysqli_query($conn, "INSERT INTO ongkir(id_pemesanan,alamat_pengirim,totalberat,provinsi,distrik,tipe,kodepos,ekspedisi,paket,ongkir,estimasi) VALUES('$pemesananID','$alamat','$totalberat','$provinsi','$distrik','$tipe','$kodepos','$ekspedisi','$paket','$ongkir','$estimasi')");
+      $_SESSION['data-pesan'] = [
+        'orderID' => $orderID,
+        'menuID' => $id_menu,
+        'image_url' => $image_url,
+        'jumlah' => $jumlah,
+        'total' => $totalharga,
+        'username' => $username,
+        'telp' => $telp,
+      ];
+      header("Location: checkout");
       exit();
     }
     if (isset($_POST['tambah-keranjang'])) {
@@ -285,7 +269,7 @@ if (isset($_SESSION["data-user"])) {
       }
     }
 
-    $pemesanan = mysqli_query($conn, "SELECT pemesanan.*, pemesanan_status.status_pemesanan, menu.nama_makanan, menu.harga FROM pemesanan JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status JOIN menu ON pemesanan.id_menu=menu.id_menu WHERE pemesanan.id_user='$idUser' ORDER BY pemesanan.id_pemesanan DESC");
+    $pemesanan = mysqli_query($conn, "SELECT pemesanan.*, ongkir.*, pemesanan_status.status_pemesanan, menu.nama_makanan, menu.harga, menu.image FROM pemesanan JOIN ongkir ON pemesanan.id_pemesanan=ongkir.id_pemesanan JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status JOIN menu ON pemesanan.id_menu=menu.id_menu WHERE pemesanan.id_user='$idUser' ORDER BY pemesanan.id_pemesanan DESC");
     if (isset($_POST['hapus-pemesanan'])) {
       if (delete_pemesanan($_POST) > 0) {
         $_SESSION["message-success"] = "Data pemesanan berhasil dihapus.";
@@ -297,6 +281,7 @@ if (isset($_SESSION["data-user"])) {
     if (isset($_POST['bayar-sekarang'])) {
       $id_order = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['id-order']))));
       $id_menu = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['id-menu']))));
+      $image_url = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['image_url']))));
       $jumlah = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['jumlah']))));
       $total = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['total']))));
       $username = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_SESSION['data-user']['username']))));
@@ -305,6 +290,7 @@ if (isset($_SESSION["data-user"])) {
       $_SESSION['data-pesan'] = [
         'orderID' => $id_order,
         'menuID' => $id_menu,
+        'image_url' => $image_url,
         'jumlah' => $jumlah,
         'total' => $total,
         'username' => $username,
