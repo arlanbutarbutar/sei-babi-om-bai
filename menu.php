@@ -39,7 +39,8 @@ $_SESSION["page-url"] = "kontak";
               <img src="<?= $row['image'] ?>" style="width: 100%;height: 300px;object-fit: cover;margin-bottom: 10px;" alt="Gambar Tidak Ditemukan">
             </div>
             <div class="content">
-              <h3><?= $row['nama_makanan'] ?></h3>
+              <h3><?= $row['nama_menu'] ?></h3>
+              <h3 style="font-size: 16px;"><?= $row['deskripsi'] ?></h3>
             </div>
           </div>
       <?php }

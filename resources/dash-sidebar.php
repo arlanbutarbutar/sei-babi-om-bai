@@ -24,6 +24,12 @@
         <span class="menu-title">Menu</span>
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" style="cursor: pointer;" onclick="window.location.href='menu-ditempat'">
+        <i class="mdi mdi-food-variant menu-icon"></i>
+        <span class="menu-title">Menu Ditempat</span>
+      </a>
+    </li>
     <?php if ($_SESSION['data-user']['role'] == 3) { ?>
       <li class="nav-item">
         <a class="nav-link" style="cursor: pointer;" onclick="window.location.href='keranjang'">

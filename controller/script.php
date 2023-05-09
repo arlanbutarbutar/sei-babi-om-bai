@@ -28,7 +28,7 @@ if (isset($_SESSION["time-message"])) {
 $baseURL = "http://$_SERVER[HTTP_HOST]/apps/sei-babi-om-bai";
 
 $tentang = mysqli_query($conn, "SELECT * FROM ui_about");
-$menu_makanStay = mysqli_query($conn, "SELECT * FROM menu WHERE id_status='2' ORDER BY id_menu DESC");
+$menu_makanStay = mysqli_query($conn, "SELECT * FROM menu_ditempat");
 $menu_makanSend = mysqli_query($conn, "SELECT * FROM menu WHERE id_status='2' ORDER BY id_menu DESC");
 
 if (isset($_POST['contact'])) {
@@ -154,15 +154,33 @@ if (isset($_SESSION["data-user"])) {
       }
     }
 
+    $menu_ditempat = mysqli_query($conn, "SELECT * FROM menu_ditempat");
+    if (isset($_POST["tambah-menu-ditempat"])) {
+      if (add_menu_ditempat($_POST) > 0) {
+        $_SESSION["message-success"] = "Menu " . $_POST["nama"] . " berhasil ditambahkan.";
+        $_SESSION["time-message"] = time();
+        header("Location: " . $_SESSION["page-url"]);
+        exit();
+      }
+    }
+    if (isset($_POST["ubah-menu-ditempat"])) {
+      if (edit_menu_ditempat($_POST) > 0) {
+        $_SESSION["message-success"] = "Menu " . $_POST["namaOld"] . " berhasil diubah.";
+        $_SESSION["time-message"] = time();
+        header("Location: " . $_SESSION["page-url"]);
+        exit();
+      }
+    }
+    if (isset($_POST["hapus-menu-ditempat"])) {
+      if (delete_menu_ditempat($_POST) > 0) {
+        $_SESSION["message-success"] = "Menu " . $_POST["nama"] . " berhasil dihapus.";
+        $_SESSION["time-message"] = time();
+        header("Location: " . $_SESSION["page-url"]);
+        exit();
+      }
+    }
+
     $pemesanan = mysqli_query($conn, "SELECT pemesanan.*, users.username, users.email, users.telp, menu.*, pemesanan_status.status_pemesanan FROM pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status ORDER BY pemesanan.id_pemesanan DESC");
-    // if (isset($_POST["ubah-pemesanan"])) {
-    //   if (edit_pemesanan($_POST) > 0) {
-    //     $_SESSION["message-success"] = "Pemesanan " . $_POST["nama"] . " berhasil diubah.";
-    //     $_SESSION["time-message"] = time();
-    //     header("Location: " . $_SESSION["page-url"]);
-    //     exit();
-    //   }
-    // }
 
     if (isset($_POST["ubah-tentang"])) {
       if (edit_tentang($_POST) > 0) {

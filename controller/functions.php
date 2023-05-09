@@ -257,6 +257,83 @@ if (isset($_SESSION["data-user"])) {
       mysqli_query($conn, "DELETE FROM menu WHERE id_menu='$id_menu'");
       return mysqli_affected_rows($conn);
     }
+    function add_menu_ditempat($data)
+    {
+      global $conn, $baseURL;
+      $path = "../assets/images/menu/";
+      $fileName = basename($_FILES["avatar"]["name"]);
+      $fileName = str_replace(" ", "-", $fileName);
+      $fileName_encrypt = crc32($fileName);
+      $ekstensiGambar = explode('.', $fileName);
+      $ekstensiGambar = strtolower(end($ekstensiGambar));
+      $imageUploadPath = $path . $fileName_encrypt . "." . $ekstensiGambar;
+      $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+      $allowTypes = array('jpg', 'png', 'jpeg');
+      if (in_array($fileType, $allowTypes)) {
+        $imageTemp = $_FILES["avatar"]["tmp_name"];
+        compressImage($imageTemp, $imageUploadPath, 75);
+        $url_image = $baseURL . "/assets/images/menu/" . $fileName_encrypt . "." . $ekstensiGambar;
+      } else {
+        $_SESSION['message-danger'] = "Sorry, only JPG, JPEG and PNG image files are allowed.";
+        $_SESSION['time-message'] = time();
+        return false;
+      }
+      $nama = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['nama']))));
+      $deskripsi = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['deskripsi']))));
+
+      mysqli_query($conn, "INSERT INTO menu_ditempat(image,nama_menu,deskripsi) VALUES('$url_image','$nama','$deskripsi')");
+      return mysqli_affected_rows($conn);
+    }
+    function edit_menu_ditempat($data)
+    {
+      global $conn, $baseURL;
+      $id_menu = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-menu']))));
+      $avatar = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['avatarOld']))));
+      if (!empty($_FILES['avatar']["name"])) {
+        $path = "../assets/images/menu/";
+        $fileName = basename($_FILES["avatar"]["name"]);
+        $fileName = str_replace(" ", "-", $fileName);
+        $fileName_encrypt = crc32($fileName);
+        $ekstensiGambar = explode('.', $fileName);
+        $ekstensiGambar = strtolower(end($ekstensiGambar));
+        $imageUploadPath = $path . $fileName_encrypt . "." . $ekstensiGambar;
+        $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+        $allowTypes = array('jpg', 'png', 'jpeg');
+        if (in_array($fileType, $allowTypes)) {
+          $imageTemp = $_FILES["avatar"]["tmp_name"];
+          compressImage($imageTemp, $imageUploadPath, 75);
+          $unwanted_characters = $baseURL . "/assets/images/menu/";
+          $remove_avatar = str_replace($unwanted_characters, "", $avatar);
+          unlink($path . $remove_avatar);
+          $url_image = $baseURL . "/assets/images/menu/" . $fileName_encrypt . "." . $ekstensiGambar;
+        } else {
+          $_SESSION['message-danger'] = "Sorry, only JPG, JPEG and PNG image files are allowed.";
+          $_SESSION['time-message'] = time();
+          return false;
+        }
+      } else if (empty($_FILE['avatar']["name"])) {
+        $url_image = $avatar;
+      }
+      $nama = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['nama']))));
+      $deskripsi = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['deskripsi']))));
+
+      mysqli_query($conn, "UPDATE menu_ditempat SET image='$url_image', nama_menu='$nama', deskripsi='$deskripsi', updated_at=CURRENT_TIMESTAMP WHERE id_menu_ditempat='$id_menu'");
+      return mysqli_affected_rows($conn);
+    }
+    function delete_menu_ditempat($data)
+    {
+      global $conn, $baseURL;
+      $id_menu = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-menu']))));
+      $avatar = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['avatarOld']))));
+
+      $path = "../assets/images/menu/";
+      $unwanted_characters = $baseURL . "/assets/images/menu/";
+      $remove_avatar = str_replace($unwanted_characters, "", $avatar);
+      unlink($path . $remove_avatar);
+
+      mysqli_query($conn, "DELETE FROM menu_ditempat WHERE id_menu_ditempat='$id_menu'");
+      return mysqli_affected_rows($conn);
+    }
     function edit_tentang($data)
     {
       global $conn;
