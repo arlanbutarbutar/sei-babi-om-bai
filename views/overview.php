@@ -211,13 +211,16 @@
                       <tr>
                         <th scope="col" class="text-center">#Order ID</th>
                         <th scope="col" class="text-center">Tgl Beli</th>
+                        <th scope="col" class="text-center">Status</th>
                         <th scope="col" class="text-center">Nama Pembeli</th>
                         <th scope="col" class="text-center">Menu</th>
-                        <th scope="col" class="text-center">Jumlah</th>
+                        <th scope="col" class="text-center">Alamat</th>
+                        <th scope="col" class="text-center">Ekspedisi</th>
+                        <th scope="col" class="text-center">Estimasi</th>
+                        <th scope="col" class="text-center">Total Berat</th>
                         <th scope="col" class="text-center">Harga</th>
                         <th scope="col" class="text-center">Ongkos Kirim</th>
                         <th scope="col" class="text-center">Total</th>
-                        <th scope="col" class="text-center">Status</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -227,13 +230,16 @@
                             <th scope="row"><?= $row['id_order']; ?></th>
                             <td><?php $dateCreate = date_create($row["created_at"]);
                                 echo date_format($dateCreate, "l, d M Y h:i a"); ?></td>
+                            <td><?= $row["status_pemesanan"] ?></td>
                             <td><?= $row["username"] ?><br>Email: <?= $row["email"] ?><br>Telp: <?= $row["telp"] ?><br>Alamat: <?= $row["alamat"] ?></td>
                             <td><?= $row["nama_makanan"] ?></td>
-                            <td><?= $row["jumlah"] ?></td>
+                            <td><?= $row['alamat_pengirim'] . ", " . $row['tipe'] . ", " . $row['distrik'] . ", " . $row['provinsi'] . ", (" . $row['kodepos'] . ")" ?></td>
+                            <td><?= strtoupper($row["ekspedisi"]) . " " . $row['paket'] . " - Rp. " . number_format($row['ongkir']) ?></td>
+                            <td><?= $row["estimasi"] ?> hari</td>
+                            <td><?= $row["jumlah"] ?>Kg</td>
                             <td>Rp.<?= number_format($row["harga"]) ?>/Kg</td>
                             <td>Rp.<?= number_format($row["ongkir"]) ?>/Kg</td>
                             <td>Rp.<?= number_format($row["total_harga"]) ?></td>
-                            <td><?= $row["status_pemesanan"] ?></td>
                           </tr>
                       <?php }
                       } ?>

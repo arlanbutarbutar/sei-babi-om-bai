@@ -1,6 +1,6 @@
 <?php require_once("controller/script.php");
-$_SESSION["page-name"] = "Kontak";
-$_SESSION["page-url"] = "kontak";
+$_SESSION["page-name"] = "Menu";
+$_SESSION["page-url"] = "menu";
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +58,7 @@ $_SESSION["page-url"] = "kontak";
             <img src="<?= $row['image'] ?>" style="width: 100%;height: 300px;object-fit: cover;margin-bottom: 10px;" alt="Gambar Tidak Ditemukan">
             <h3><?= $row['nama_makanan'] ?></h3>
             <h3 style="font-size: 16px;"><?= $row['deskripsi'] ?></h3>
-            <div class="price">Rp.<?= number_format($row['harga']) . "/<span>" . $row['satuan'] ?>20.99</span></div>
+            <div class="price">Rp.<?= number_format($row['harga']) ?></span></div>
             <h3 style="font-size: 16px;">Stok <?= $row['stok'] ?> Kg</h3>
             <?php if (!isset($_SESSION['data-user'])) { ?>
               <form action="" method="post">

@@ -106,7 +106,7 @@ if (isset($_SESSION["data-user"])) {
     $count_sudah_bayar = mysqli_num_rows($count_sudah_bayar);
     $count_kontak = mysqli_query($conn, "SELECT * FROM contact");
     $count_kontak = mysqli_num_rows($count_kontak);
-    $pemesananDash = mysqli_query($conn, "SELECT pemesanan.*, users.username, users.email, users.telp, menu.*, pemesanan_status.status_pemesanan FROM pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status ORDER BY pemesanan.id_pemesanan DESC LIMIT 5");
+    $pemesananDash = mysqli_query($conn, "SELECT pemesanan.*, ongkir.*, users.username, users.email, users.telp, menu.nama_makanan, menu.harga, menu.image, pemesanan_status.status_pemesanan FROM pemesanan JOIN ongkir ON pemesanan.id_pemesanan=ongkir.id_pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status ORDER BY pemesanan.id_pemesanan DESC LIMIT 5");
 
     $users_role = mysqli_query($conn, "SELECT * FROM users_role");
     $users = mysqli_query($conn, "SELECT * FROM users JOIN users_role ON users.id_role=users_role.id_role WHERE users.id_user!='$idUser' ORDER BY users.id_user DESC");
@@ -180,7 +180,7 @@ if (isset($_SESSION["data-user"])) {
       }
     }
 
-    $pemesanan = mysqli_query($conn, "SELECT pemesanan.*, users.username, users.email, users.telp, menu.*, pemesanan_status.status_pemesanan FROM pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status ORDER BY pemesanan.id_pemesanan DESC");
+    $pemesanan = mysqli_query($conn, "SELECT pemesanan.*, ongkir.*, users.username, users.email, users.telp, menu.nama_makanan, menu.harga, menu.image, pemesanan_status.status_pemesanan FROM pemesanan JOIN ongkir ON pemesanan.id_pemesanan=ongkir.id_pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status ORDER BY pemesanan.id_pemesanan DESC");
 
     if (isset($_POST["ubah-tentang"])) {
       if (edit_tentang($_POST) > 0) {
@@ -192,6 +192,13 @@ if (isset($_SESSION["data-user"])) {
     }
 
     $kontak = mysqli_query($conn, "SELECT * FROM contact");
+
+    if (isset($_POST['cetak-laporan'])) {
+      $tanggal = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['tanggal']))));
+      $_SESSION['data-cetak'] = ['tanggal' => $tanggal];
+      header("Location: cetak-laporan");
+      exit();
+    }
   }
 
   if ($_SESSION['data-user']['role'] == 3) {

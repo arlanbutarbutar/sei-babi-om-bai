@@ -41,7 +41,7 @@ $_SESSION["page-url"] = "./";
                   </ul>
                   <div>
                     <div class="btn-wrapper">
-                      <!-- <a href="report" class="btn btn-primary text-white me-0"><i class="icon-download"></i> Export</a> -->
+                      <a href="#" class="btn btn-primary text-white me-0 rounded-0" data-bs-toggle="modal" data-bs-target="#tambah"><i class="mdi mdi-download"></i> Export</a>
                     </div>
                   </div>
                 </div>
@@ -49,6 +49,29 @@ $_SESSION["page-url"] = "./";
                   <div class="data-main"></div>
                 <?php } ?>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="tambah" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header border-bottom-0 shadow">
+                <h5 class="modal-title" id="exampleModalLabel">Laporan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="" method="post">
+                <div class="modal-body text-center">
+                  <div class="mb-3">
+                    <label for="tanggal" class="form-label">Pilih Bulan & Tahun</label>
+                    <input type="month" name="tanggal" value="<?= date('Y-m')?>" class="form-control" id="tanggal" placeholder="Pilih Bulan & Tahun" required>
+                  </div>
+                </div>
+                <div class="modal-footer border-top-0 justify-content-center">
+                  <button type="button" class="btn btn-secondary btn-sm rounded-0" data-bs-dismiss="modal">Batal</button>
+                  <button type="submit" name="cetak-laporan" class="btn btn-primary btn-sm rounded-0 border-0">Cetak</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
