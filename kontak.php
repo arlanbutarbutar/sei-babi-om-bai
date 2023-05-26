@@ -24,38 +24,73 @@ $_SESSION["page-url"] = "kontak";
     <div class="message-danger" data-message-danger="<?= $_SESSION["message-danger"] ?>"></div>
   <?php } ?>
 
-  <!-- header section starts -->
-  <?php require_once("resources/navbar.php"); ?>
-  <!-- header section ends -->
-
-  <!-- contact section starts  -->
-  <section class="contact" id="contact">
-    <h1 class="heading"> <span>kontak</span> kami </h1>
-    <div class="row">
-      <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.6339640485708!2d123.72467877340257!3d-10.291047889829706!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2c56898aa5da6a25%3A0x88a03f002ec42724!2sSei%20Babi%20Om%20Bai%20(Asli)!5e0!3m2!1sid!2sid!4v1681726735097!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <form action="" method="POST">
-        <h3>Berikan Pesan</h3>
-        <div class="inputBox">
-          <span class="fas fa-user"></span>
-          <input type="text" name="nama" placeholder="Nama">
-        </div>
-        <div class="inputBox">
-          <span class="fas fa-envelope"></span>
-          <input type="email" name="email" placeholder="Email">
-        </div>
-        <div class="inputBox">
-          <span class="fas fa-envelope"></span>
-          <input type="text" name="subject" placeholder="Subject">
-        </div>
-        <div class="inputBox">
-          <span class="fas fa-phone"></span>
-          <input type="text" name="message" placeholder="Message">
-        </div>
-        <input type="submit" name="contact" value="contact now" class="btn">
-      </form>
+  <div class="container-xxl bg-white p-0">
+    <?php require_once("resources/navbar.php"); ?>
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+      <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Kontak</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center text-uppercase">
+            <li class="breadcrumb-item"><a href="./">Beranda</a></li>
+            <li class="breadcrumb-item text-white active" aria-current="page">Kontak</li>
+          </ol>
+        </nav>
+      </div>
     </div>
-  </section>
-  <!-- contact section ends -->
+  </div>
+  <!-- Navbar & Hero End -->
+
+  <!-- Contact Start -->
+  <div class="container-xxl py-5">
+    <div class="container">
+      <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h1 class="mb-5">Kontak</h1>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
+          <iframe class="position-relative rounded w-100 h-100" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7851.267925356045!2d123.727254!3d-10.291048!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2c56898aa5da6a25%3A0x88a03f002ec42724!2sSei%20Babi%20Om%20Bai%20(Asli)!5e0!3m2!1sid!2sid!4v1685120260444!5m2!1sid!2sid" frameborder="0" style="min-height: 350px; border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+        </div>
+        <div class="col-md-6">
+          <div class="wow fadeInUp" data-wow-delay="0.2s">
+            <form action="" method="POST">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" name="nama" class="form-control" id="name" placeholder="Nama">
+                    <label for="name">Nama</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="email" name="email" class="form-control" id="email" placeholder="Email">
+                    <label for="email">Email</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <input type="text" name="subject" class="form-control" id="subject" placeholder="Subject">
+                    <label for="subject">Subject</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea name="message" class="form-control" placeholder="Leave a message here" id="message" style="height: 150px"></textarea>
+                    <label for="message">Message</label>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button name="contact" class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Contact End -->
+
+  <div style="margin-bottom: 100px;"></div>
 
   <!--Footer-->
   <?php require_once("resources/footer.php") ?>

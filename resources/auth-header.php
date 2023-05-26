@@ -8,6 +8,6 @@
 <link rel="stylesheet" href="<?= $baseURL ?>/assets/typicons/typicons.css">
 <link rel="stylesheet" href="<?= $baseURL ?>/assets/css/simple-line-icons.css">
 <link rel="stylesheet" href="<?= $baseURL ?>/assets/css/vendor.bundle.base.css">
-<link rel="stylesheet" href="<?= $baseURL ?>/assets/css/styles-dash.css">
+<link rel="stylesheet" href="<?= $baseURL ?>/assets/css/styles.css">
 <link rel="shortcut icon" href="<?= $baseURL ?>/assets/images/logo.png" />
 <script src="<?= $baseURL ?>/assets/sweetalert/dist/sweetalert2.all.min.js"></script>

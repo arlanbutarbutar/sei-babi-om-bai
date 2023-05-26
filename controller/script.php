@@ -28,6 +28,9 @@ if (isset($_SESSION["time-message"])) {
 $baseURL = "http://$_SERVER[HTTP_HOST]/apps/sei-babi-om-bai";
 
 $tentang = mysqli_query($conn, "SELECT * FROM ui_about");
+$blogs = mysqli_query($conn, "SELECT * FROM blog");
+$videos = mysqli_query($conn, "SELECT * FROM video");
+$gallery = mysqli_query($conn, "SELECT * FROM gallery");
 $menu_makanStay = mysqli_query($conn, "SELECT * FROM menu_ditempat");
 $menu_makanSend = mysqli_query($conn, "SELECT * FROM menu WHERE id_status='2' ORDER BY id_menu DESC");
 
@@ -191,6 +194,68 @@ if (isset($_SESSION["data-user"])) {
       }
     }
 
+    $galeri = mysqli_query($conn, "SELECT * FROM gallery");
+    if (isset($_POST["tambah-galeri"])) {
+      if (add_galeri($_POST) > 0) {
+        $_SESSION["message-success"] = "Gambar berhasil ditambah ke galeri.";
+        $_SESSION["time-message"] = time();
+        header("Location: " . $_SESSION["page-url"]);
+        exit();
+      }
+    }
+    if (isset($_POST["hapus-galeri"])) {
+      if (delete_galeri($_POST) > 0) {
+        $_SESSION["message-success"] = "Gambar berhasil dihapus ke galeri.";
+        $_SESSION["time-message"] = time();
+        header("Location: " . $_SESSION["page-url"]);
+        exit();
+      }
+    }
+
+    $blog = mysqli_query($conn, "SELECT * FROM blog");
+    if (isset($_POST["tambah-blog"])) {
+      if (add_blog($_POST) > 0) {
+        $_SESSION["message-success"] = "Konten berhasil ditambah ke blog.";
+        $_SESSION["time-message"] = time();
+        header("Location: " . $_SESSION["page-url"]);
+        exit();
+      }
+    }
+    if (isset($_POST["ubah-blog"])) {
+      if (edit_blog($_POST) > 0) {
+        $_SESSION["message-success"] = "Konten berhasil diubah dari blog.";
+        $_SESSION["time-message"] = time();
+        header("Location: " . $_SESSION["page-url"]);
+        exit();
+      }
+    }
+    if (isset($_POST["hapus-blog"])) {
+      if (delete_blog($_POST) > 0) {
+        $_SESSION["message-success"] = "Konten berhasil dihapus dari blog.";
+        $_SESSION["time-message"] = time();
+        header("Location: " . $_SESSION["page-url"]);
+        exit();
+      }
+    }
+
+    $video = mysqli_query($conn, "SELECT * FROM video");
+    if (isset($_POST["tambah-video"])) {
+      if (add_video($_POST) > 0) {
+        $_SESSION["message-success"] = "Video berhasil ditambahkan.";
+        $_SESSION["time-message"] = time();
+        header("Location: " . $_SESSION["page-url"]);
+        exit();
+      }
+    }
+    if (isset($_POST["hapus-video"])) {
+      if (delete_video($_POST) > 0) {
+        $_SESSION["message-success"] = "Video berhasil dihapus.";
+        $_SESSION["time-message"] = time();
+        header("Location: " . $_SESSION["page-url"]);
+        exit();
+      }
+    }
+
     $kontak = mysqli_query($conn, "SELECT * FROM contact");
 
     if (isset($_POST['cetak-laporan'])) {
@@ -257,7 +322,7 @@ if (isset($_SESSION["data-user"])) {
       $paket = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['paket']))));
       $ongkir = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['ongkir']))));
       $estimasi = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $_POST['estimasi']))));
-      $totalharga = $jumlah * $harga + $ongkir;
+      $totalharga = $jumlah * $harga + ($jumlah * $ongkir);
       mysqli_query($conn, "UPDATE pemesanan SET alamat='$alamat', total_harga='$totalharga' WHERE id_order='$orderID'");
       mysqli_query($conn, "INSERT INTO ongkir(id_pemesanan,alamat_pengirim,totalberat,provinsi,distrik,tipe,kodepos,ekspedisi,paket,ongkir,estimasi) VALUES('$pemesananID','$alamat','$totalberat','$provinsi','$distrik','$tipe','$kodepos','$ekspedisi','$paket','$ongkir','$estimasi')");
       $_SESSION['data-pesan'] = [

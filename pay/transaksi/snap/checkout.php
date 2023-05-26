@@ -97,22 +97,43 @@ function printExampleWarningMessage()
     <div class="message-danger" data-message-danger="<?= $_SESSION["message-danger"] ?>"></div>
   <?php } ?>
 
-  <!-- header section starts -->
-  <?php require_once("../../../resources/navbar.php"); ?>
-  <!-- header section ends -->
+  <div class="container-xxl bg-white p-0">
+    <?php require_once("../../../resources/navbar.php"); ?>
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+      <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Checkout</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center text-uppercase">
+            <li class="breadcrumb-item"><a href="./">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="#">Pay</a></li>
+            <li class="breadcrumb-item"><a href="#">Transaksi</a></li>
+            <li class="breadcrumb-item text-white active" aria-current="page">Checkout</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+  <!-- Navbar & Hero End -->
 
-  <!-- contact section starts  -->
-  <section class="contact" id="contact">
-    <h1 class="heading"> <span>Checkout</h1>
-    <img src="<?= $_SESSION['data-pesan']['image_url'] ?>" style="width: 100%;height: 500px;object-fit: cover;margin-bottom: 10px;" alt="Gambar Tidak Ditemukan">
-    <div>
-      <h3 style="color: #fff;font-size: 32px;"><?= $row['nama_makanan'] ?></h3><br><br>
+  <!-- Profil Start -->
+  <div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-4">
+          <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
+            <img src="<?= $_SESSION['data-pesan']['image_url'] ?>" style="width: 100%;object-fit: cover;" alt="Gambar Tidak Ditemukan">
+          </div>
+          <div class="col-md-6 m-auto">
+            <div class="wow fadeInUp" data-wow-delay="0.2s">
+              <h3><?= $row['nama_makanan'] ?></h3>
+              <button id="pay-button" class="btn btn-primary">Bayar</button>
+            </div>
+          </div>
+        </div>
     </div>
-    <div>
-      <button id="pay-button" class="btn" style="color: #000;padding: 15px;font-size: 18px;">Bayar</button>
-    </div>
-  </section>
-  <!-- contact section ends -->
+  </div>
+  <!-- Profil End -->
+
+  <div style="margin-bottom: 100px;"></div>
 
   <!-- TODO: Remove ".sandbox" from script src URL for production environment. Also input your client key in "data-client-key" -->
   <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php echo Config::$clientKey; ?>"></script>

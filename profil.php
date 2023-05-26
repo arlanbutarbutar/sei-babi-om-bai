@@ -24,39 +24,72 @@ $_SESSION["page-url"] = "profil";
     <div class="message-danger" data-message-danger="<?= $_SESSION["message-danger"] ?>"></div>
   <?php } ?>
 
-  <!-- header section starts -->
-  <?php require_once("resources/navbar.php"); ?>
-  <!-- header section ends -->
-
-  <!-- contact section starts  -->
-  <?php foreach ($profile as $row) : ?>
-    <section class="contact" id="contact">
-      <h1 class="heading"> <span>Profil</span> Saya </h1>
-      <div class="row">
-        <img src="assets/images/user.png" style="width: 50%;object-fit: cover;" alt="Gambar Tidak Ditemukan">
-        <form action="" method="POST">
-          <div class="inputBox">
-            <span class="fas fa-user"></span>
-            <input type="text" name="username" value="<?= $row['username'] ?>" placeholder="Nama" required>
-          </div>
-          <div class="inputBox">
-            <span class="fa fa-phone"></span>
-            <input type="number" name="telp" value="<?= $row['telp'] ?>" placeholder="Telp">
-          </div>
-          <div class="inputBox">
-            <span class="fa fa-map-marker"></span>
-            <input type="text" name="alamat" value="<?= $row['alamat'] ?>" placeholder="alamat">
-          </div>
-          <div class="inputBox">
-            <span class="fa fa-key"></span>
-            <input type="password" name="password" placeholder="Password" required>
-          </div>
-          <input type="submit" name="ubah-profile" value="Ubah Profil" class="btn" style="color: #000;">
-        </form>
+  <div class="container-xxl bg-white p-0">
+    <?php require_once("resources/navbar.php"); ?>
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+      <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Profil</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center text-uppercase">
+            <li class="breadcrumb-item"><a href="./">Beranda</a></li>
+            <li class="breadcrumb-item text-white active" aria-current="page">Profil Saya</li>
+          </ol>
+        </nav>
       </div>
-    </section>
-  <?php endforeach; ?>
-  <!-- contact section ends -->
+    </div>
+  </div>
+  <!-- Navbar & Hero End -->
+
+  <!-- Profil Start -->
+  <div class="container-xxl py-5">
+    <div class="container">
+      <?php foreach ($profile as $row) : ?>
+        <div class="row g-4">
+          <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
+            <img src="assets/images/user.png" style="width: 100%;object-fit: cover;" alt="Gambar Tidak Ditemukan">
+          </div>
+          <div class="col-md-6">
+            <div class="wow fadeInUp" data-wow-delay="0.2s">
+              <form action="" method="POST">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="text" name="username" value="<?= $row['username'] ?>" class="form-control" id="name" placeholder="Nama">
+                      <label for="name">Nama</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating">
+                      <input type="number" name="telp" value="<?= $row['telp'] ?>" class="form-control" id="email" placeholder="Telp">
+                      <label for="email">Telp</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-floating">
+                      <input type="text" name="alamat" value="<?= $row['alamat'] ?>" class="form-control" id="subject" placeholder="Alamat">
+                      <label for="subject">Alamat</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-floating">
+                      <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                      <label for="password">Password</label>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button name="ubah-profile" class="btn btn-primary w-100 py-3" type="submit">Ubah Profile</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+  <!-- Profil End -->
+
+  <div style="margin-bottom: 100px;"></div>
 
   <!--Footer-->
   <?php require_once("resources/footer.php") ?>

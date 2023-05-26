@@ -8,8 +8,8 @@ function contact($data)
   $messages = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['message']))));
 
   require("mail-visitor.php");
-  $to       = 'erinotemusu2506@gmail.com';
-  // $to       = 'arlan270899@gmail.com';
+  // $to       = 'erinotemusu2506@gmail.com';
+  $to       = 'arlan270899@gmail.com';
   $subject  = "Ada kontak dari Sei Babi Om Ba'i menunggumu!!";
   $message  = "<!doctype html>
   <html>
@@ -339,6 +339,150 @@ if (isset($_SESSION["data-user"])) {
       global $conn;
       $about = $data['about'];
       mysqli_query($conn, "UPDATE ui_about SET about_us='$about'");
+      return mysqli_affected_rows($conn);
+    }
+    function add_galeri($data)
+    {
+      global $conn, $baseURL;
+      if (isset($_FILES['images'])) {
+        $files = $_FILES['images'];
+        $upload_directory = "../assets/images/gallery/";
+
+        for ($i = 0; $i < count($files['name']); $i++) {
+          $file_name = $files['name'][$i];
+          $file_tmp = $files['tmp_name'][$i];
+          $file_size = $files['size'][$i];
+
+          if ($file_size > 2097152) {
+            $_SESSION['message-danger'] = "Ukuran file harus tepat 2 MB";
+            $_SESSION['time-message'] = time();
+            return false;
+          }
+
+          $fileName = str_replace(" ", "-", $file_name);
+          $fileName_encrypt = crc32($fileName);
+          $ekstensiGambar = explode('.', $fileName);
+          $ekstensiGambar = strtolower(end($ekstensiGambar));
+          $imageUploadPath = $upload_directory . $fileName_encrypt . "." . $ekstensiGambar;
+          $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+          $allowTypes = array('jpg', 'png', 'jpeg');
+          if (in_array($fileType, $allowTypes)) {
+            compressImage($file_tmp, $imageUploadPath, 75);
+            $url_image = $baseURL . "/assets/images/gallery/" . $fileName_encrypt . "." . $ekstensiGambar;
+            mysqli_query($conn, "INSERT INTO gallery(image) VALUES('$url_image')");
+          } else {
+            $_SESSION['message-danger'] = "Maaf, hanya file gambar JPG, JPEG, dan PNG yang diizinkan.";
+            $_SESSION['time-message'] = time();
+            return false;
+          }
+        }
+      }
+      return mysqli_affected_rows($conn);
+    }
+    function delete_galeri($data)
+    {
+      global $conn, $baseURL;
+      $id_gallery = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id-gallery']))));
+      $url_image = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['url-image']))));
+
+      $path = "../assets/images/gallery/";
+      $unwanted_characters = $baseURL . "/assets/images/gallery/";
+      $remove_avatar = str_replace($unwanted_characters, "", $url_image);
+      unlink($path . $remove_avatar);
+
+      mysqli_query($conn, "DELETE FROM gallery WHERE id_gallery='$id_gallery'");
+
+      return mysqli_affected_rows($conn);
+    }
+    function add_blog($data)
+    {
+      global $conn, $baseURL;
+      $path = "../assets/images/blog/";
+      $fileName = basename($_FILES["avatar"]["name"]);
+      $fileName = str_replace(" ", "-", $fileName);
+      $fileName_encrypt = crc32($fileName);
+      $ekstensiGambar = explode('.', $fileName);
+      $ekstensiGambar = strtolower(end($ekstensiGambar));
+      $imageUploadPath = $path . $fileName_encrypt . "." . $ekstensiGambar;
+      $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+      $allowTypes = array('jpg', 'png', 'jpeg');
+      if (in_array($fileType, $allowTypes)) {
+        $imageTemp = $_FILES["avatar"]["tmp_name"];
+        compressImage($imageTemp, $imageUploadPath, 75);
+        $url_image = $baseURL . "/assets/images/blog/" . $fileName_encrypt . "." . $ekstensiGambar;
+      } else {
+        $_SESSION['message-danger'] = "Maaf, hanya file gambar JPG, JPEG, dan PNG yang diizinkan.";
+        $_SESSION['time-message'] = time();
+        return false;
+      }
+      $judul = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['judul']))));
+      $konten = $data['konten'];
+      $penulis = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['penulis']))));
+      mysqli_query($conn, "INSERT INTO blog(image,judul,konten,penulis) VALUES('$url_image','$judul','$konten','$penulis')");
+      return mysqli_affected_rows($conn);
+    }
+    function edit_blog($data)
+    {
+      global $conn, $baseURL;
+      $id = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id']))));
+      $avatar = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['avatarOld']))));
+      if (!empty($_FILES['avatar']["name"])) {
+        $path = "../assets/images/blog/";
+        $fileName = basename($_FILES["avatar"]["name"]);
+        $fileName = str_replace(" ", "-", $fileName);
+        $fileName_encrypt = crc32($fileName);
+        $ekstensiGambar = explode('.', $fileName);
+        $ekstensiGambar = strtolower(end($ekstensiGambar));
+        $imageUploadPath = $path . $fileName_encrypt . "." . $ekstensiGambar;
+        $fileType = pathinfo($imageUploadPath, PATHINFO_EXTENSION);
+        $allowTypes = array('jpg', 'png', 'jpeg');
+        if (in_array($fileType, $allowTypes)) {
+          $imageTemp = $_FILES["avatar"]["tmp_name"];
+          compressImage($imageTemp, $imageUploadPath, 75);
+          $unwanted_characters = $baseURL . "/assets/images/blog/";
+          $remove_avatar = str_replace($unwanted_characters, "", $avatar);
+          unlink($path . $remove_avatar);
+          $url_image = $baseURL . "/assets/images/blog/" . $fileName_encrypt . "." . $ekstensiGambar;
+        } else {
+          $_SESSION['message-danger'] = "Maaf, hanya file gambar JPG, JPEG, dan PNG yang diizinkan.";
+          $_SESSION['time-message'] = time();
+          return false;
+        }
+      } else if (empty($_FILE['avatar']["name"])) {
+        $url_image = $avatar;
+      }
+      $judul = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['judul']))));
+      $konten = $data['konten'];
+      $penulis = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['penulis']))));
+      mysqli_query($conn, "UPDATE blog SET image='$url_image', judul='$judul', konten='$konten', penulis='$penulis' WHERE id='$id'");
+      return mysqli_affected_rows($conn);
+    }
+    function delete_blog($data)
+    {
+      global $conn, $baseURL;
+      $id = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id']))));
+      $avatar = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['avatarOld']))));
+
+      $path = "../assets/images/blog/";
+      $unwanted_characters = $baseURL . "/assets/images/blog/";
+      $remove_avatar = str_replace($unwanted_characters, "", $avatar);
+      unlink($path . $remove_avatar);
+
+      mysqli_query($conn, "DELETE FROM blog WHERE id='$id'");
+      return mysqli_affected_rows($conn);
+    }
+    function add_video($data)
+    {
+      global $conn;
+      $link_yt = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['link_yt']))));
+      mysqli_query($conn, "INSERT INTO video(link_yt) VALUES('$link_yt')");
+      return mysqli_affected_rows($conn);
+    }
+    function delete_video($data)
+    {
+      global $conn;
+      $id_video = htmlspecialchars(addslashes(trim(mysqli_real_escape_string($conn, $data['id_video']))));
+      mysqli_query($conn, "DELETE FROM video WHERE id_video='$id_video'");
       return mysqli_affected_rows($conn);
     }
   } else if ($_SESSION['data-user']['role'] == 3) {

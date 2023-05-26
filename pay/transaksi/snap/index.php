@@ -24,54 +24,86 @@ $_SESSION["page-url"] = "./";
     <div class="message-danger" data-message-danger="<?= $_SESSION["message-danger"] ?>"></div>
   <?php } ?>
 
-  <!-- header section starts -->
-  <?php require_once("../../../resources/navbar.php"); ?>
-  <!-- header section ends -->
-
-  <!-- contact section starts  -->
-  <section class="contact" id="contact">
-    <h1 class="heading"> <span>Pengiriman</h1>
-    <div class="row">
-      <img src="<?= $_SESSION['data-pesan']['image_url'] ?>" style="width: 100%;height: 500px;object-fit: cover;margin-bottom: 10px;" alt="Gambar Tidak Ditemukan">
-      <form action="" method="post">
-        <h3>Masukan Alamat Penerima</h3>
-        <div class="inputBox">
-          <textarea name="alamat" cols="30" rows="3" style="padding: 10px;width: 100%;font-size: 18px;" placeholder="Masukkan alamat lengkap pengiriman" required></textarea>
-        </div>
-        <div class="inputBox">
-          <select name="nama_provinsi" style="padding: 10px;width: 100%;font-size: 18px;" required></select>
-        </div>
-        <div class="inputBox">
-          <select name="nama_distrik" style="padding: 10px;width: 100%;font-size: 18px;" required></select>
-        </div>
-        <div class="inputBox">
-          <select name="nama_ekspedisi" style="padding: 10px;width: 100%;font-size: 18px;" required></select>
-        </div>
-        <div class="inputBox">
-          <select name="nama_paket" style="padding: 10px;width: 100%;font-size: 18px;" required></select>
-        </div>
-        <input type="hidden" name="pemesananID" value="<?= $_SESSION['data-pesan']['pemesananID'] ?>">
-        <input type="hidden" name="orderID" value="<?= $_SESSION['data-pesan']['orderID'] ?>">
-        <input type="hidden" name="menuID" value="<?= $_SESSION['data-pesan']['menuID'] ?>">
-        <input type="hidden" name="image_url" value="<?= $_SESSION['data-pesan']['image_url'] ?>">
-        <input type="hidden" name="jumlah" value="<?= $_SESSION['data-pesan']['jumlah'] ?>">
-        <input type="hidden" name="harga" value="<?= $_SESSION['data-pesan']['harga'] ?>">
-        <input type="hidden" name="username" value="<?= $_SESSION['data-pesan']['username'] ?>">
-        <input type="hidden" name="telp" value="<?= $_SESSION['data-pesan']['telp'] ?>">
-        <input type="hidden" name="totalberat" value="<?= $_SESSION['data-pesan']['jumlah'] * 1; ?>">
-        <input type="hidden" name="provinsi">
-        <input type="hidden" name="distrik">
-        <input type="hidden" name="tipe">
-        <input type="hidden" name="kodepos">
-        <input type="hidden" name="ekspedisi">
-        <input type="hidden" name="paket">
-        <input type="hidden" name="ongkir">
-        <input type="hidden" name="estimasi">
-        <button type="submit" name="checkout" class="btn">Checkout</button>
-      </form>
+  <div class="container-xxl bg-white p-0">
+    <?php require_once("../../../resources/navbar.php"); ?>
+    <div class="container-xxl py-5 bg-dark hero-header mb-5">
+      <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Pengiriman</h1>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb justify-content-center text-uppercase">
+            <li class="breadcrumb-item"><a href="./">Beranda</a></li>
+            <li class="breadcrumb-item"><a href="#">Pay</a></li>
+            <li class="breadcrumb-item"><a href="#">Transaksi</a></li>
+            <li class="breadcrumb-item text-white active" aria-current="page">Pengiriman</li>
+          </ol>
+        </nav>
+      </div>
     </div>
-  </section>
-  <!-- contact section ends -->
+  </div>
+  <!-- Navbar & Hero End -->
+
+  <!-- Profil Start -->
+  <div class="container-xxl py-5">
+    <div class="container">
+      <?php foreach ($profile as $row) : ?>
+        <div class="row g-4">
+          <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
+            <img src="<?= $_SESSION['data-pesan']['image_url'] ?>" style="width: 100%;object-fit: cover;" alt="Gambar Tidak Ditemukan">
+          </div>
+          <div class="col-md-6">
+            <div class="wow fadeInUp" data-wow-delay="0.2s">
+              <h3>Masukan Alamat Penerima</h3>
+              <form action="" method="POST">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="form-floating">
+                      <input type="text" name="alamat" value="<?= $row['alamat'] ?>" class="form-control" id="subject" placeholder="Masukkan alamat lengkap pengiriman">
+                      <label for="subject">Alamat</label>
+                    </div>
+                  </div>
+                  <div class="inputBox">
+                    <select name="nama_provinsi" style="padding: 10px;width: 100%;font-size: 18px;" required></select>
+                  </div>
+                  <div class="inputBox">
+                    <select name="nama_distrik" style="padding: 10px;width: 100%;font-size: 18px;" required></select>
+                  </div>
+                  <div class="inputBox">
+                    <select name="nama_ekspedisi" style="padding: 10px;width: 100%;font-size: 18px;" required></select>
+                  </div>
+                  <div class="inputBox">
+                    <select name="nama_paket" style="padding: 10px;width: 100%;font-size: 18px;" required></select>
+                  </div>
+                  <input type="hidden" name="pemesananID" value="<?= $_SESSION['data-pesan']['pemesananID'] ?>">
+                  <input type="hidden" name="orderID" value="<?= $_SESSION['data-pesan']['orderID'] ?>">
+                  <input type="hidden" name="menuID" value="<?= $_SESSION['data-pesan']['menuID'] ?>">
+                  <input type="hidden" name="image_url" value="<?= $_SESSION['data-pesan']['image_url'] ?>">
+                  <input type="hidden" name="jumlah" value="<?= $_SESSION['data-pesan']['jumlah'] ?>">
+                  <input type="hidden" name="harga" value="<?= $_SESSION['data-pesan']['harga'] ?>">
+                  <input type="hidden" name="username" value="<?= $_SESSION['data-pesan']['username'] ?>">
+                  <input type="hidden" name="telp" value="<?= $_SESSION['data-pesan']['telp'] ?>">
+                  <input type="hidden" name="totalberat" value="<?= $_SESSION['data-pesan']['jumlah'] * 1000; ?>">
+                  <input type="hidden" name="provinsi">
+                  <input type="hidden" name="distrik">
+                  <input type="hidden" name="tipe">
+                  <input type="hidden" name="kodepos">
+                  <input type="hidden" name="ekspedisi">
+                  <input type="hidden" name="paket">
+                  <input type="hidden" name="ongkir">
+                  <input type="hidden" name="estimasi">
+                  <div class="col-12">
+                    <button name="checkout" class="btn btn-primary w-100 py-3" type="submit">Checkout</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+  <!-- Profil End -->
+
+  <div style="margin-bottom: 100px;"></div>
 
   <!--Footer-->
   <?php require_once("../../../resources/footer.php") ?>

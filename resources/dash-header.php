@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="<?= $baseURL ?>/assets/css/simple-line-icons.css">
 <link rel="stylesheet" href="<?= $baseURL ?>/assets/css/vendor.bundle.base.css">
 <link rel="stylesheet" href="<?= $baseURL ?>/assets/css/select.dataTables.min.css">
-<link rel="stylesheet" href="<?= $baseURL ?>/assets/css/styles-dash.css">
+<link rel="stylesheet" href="<?= $baseURL ?>/assets/css/styles.css">
 <link rel="stylesheet" href="<?= $baseURL ?>/assets/datatable/datatables.css">
 <script src="<?= $baseURL ?>/assets/sweetalert/dist/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="<?= $baseURL ?>/assets/node_modules/bootstrap-icons/font/bootstrap-icons.css">
