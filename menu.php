@@ -75,10 +75,10 @@ $_SESSION["page-url"] = "menu";
                         <h5 class="d-flex justify-content-between border-bottom pb-2">
                           <span><?= $row_menuStay['nama_menu'] ?></span>
                         </h5>
-                        <a href="#" class="nav-link p-0 m-0" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <a href="#" class="nav-link p-0 m-0" data-bs-toggle="modal" data-bs-target="#detail<?= $row_menuStay['id_menu_ditempat'] ?>">
                           Detail makanan
                         </a>
-                        <div class="modal fade shadow" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade shadow" id="detail<?= $row_menuStay['id_menu_ditempat'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                               <div class="modal-header bg-transparent border-bottom-0">
