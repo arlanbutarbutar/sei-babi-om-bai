@@ -101,7 +101,10 @@ if (isset($_SESSION["data-user"])) {
     ORDER BY pemesanan.id_pemesanan DESC");
     $count_pemesanan = mysqli_num_rows($count_pemesanan);
     $current_month = date('Y-m');
-    $count_pendapatan = mysqli_query($conn, "SELECT SUM(total_harga) as total FROM pemesanan WHERE created_at LIKE '$current_month%'");
+    $count_pendapatan = mysqli_query($conn, "SELECT SUM(pemesanan.total_harga) as total FROM pemesanan JOIN ongkir ON pemesanan.id_pemesanan=ongkir.id_pemesanan 
+    LEFT JOIN users ON pemesanan.id_user=users.id_user 
+    LEFT JOIN menu ON pemesanan.id_menu=menu.id_menu 
+    LEFT JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status WHERE pemesanan.created_at LIKE '$current_month%'");
     if (mysqli_num_rows($count_pendapatan) == 0) {
       $total_pendapatan = "0";
     } else if (mysqli_num_rows($count_pendapatan) > 0) {
