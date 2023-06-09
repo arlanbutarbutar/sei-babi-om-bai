@@ -11,7 +11,7 @@
       </div>
       <div class="col-lg-5 col-md-8">
         <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
-        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Tunbaun, Kec. Amarasi Bar., Kabupaten Kupang, Nusa Tenggara Tim.</p>
+        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Teunbaun, Kec. Amarasi Bar., Kabupaten Kupang, Nusa Tenggara Tim.</p>
         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+62 813-3916-0513</p>
         <div class="d-flex pt-2">
           <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/seibaunkupang/?hl=id" target="_blank"><i class="fab fa-instagram"></i></a>

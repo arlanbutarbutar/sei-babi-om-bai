@@ -93,7 +93,12 @@ if (isset($_SESSION["data-user"])) {
     $count_users = mysqli_num_rows($count_users);
     $count_menu = mysqli_query($conn, "SELECT * FROM menu");
     $count_menu = mysqli_num_rows($count_menu);
-    $count_pemesanan = mysqli_query($conn, "SELECT * FROM pemesanan");
+    $count_pemesanan = mysqli_query($conn, "SELECT pemesanan.*, ongkir.*, users.username, users.email, users.telp, menu.nama_makanan, menu.harga, menu.image, pemesanan_status.status_pemesanan 
+    FROM pemesanan JOIN ongkir ON pemesanan.id_pemesanan=ongkir.id_pemesanan 
+    LEFT JOIN users ON pemesanan.id_user=users.id_user 
+    LEFT JOIN menu ON pemesanan.id_menu=menu.id_menu 
+    LEFT JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status 
+    ORDER BY pemesanan.id_pemesanan DESC");
     $count_pemesanan = mysqli_num_rows($count_pemesanan);
     $current_month = date('Y-m');
     $count_pendapatan = mysqli_query($conn, "SELECT SUM(total_harga) as total FROM pemesanan WHERE created_at LIKE '$current_month%'");
@@ -183,7 +188,13 @@ if (isset($_SESSION["data-user"])) {
       }
     }
 
-    $pemesanan = mysqli_query($conn, "SELECT pemesanan.*, ongkir.*, users.username, users.email, users.telp, menu.nama_makanan, menu.harga, menu.image, pemesanan_status.status_pemesanan FROM pemesanan JOIN ongkir ON pemesanan.id_pemesanan=ongkir.id_pemesanan JOIN users ON pemesanan.id_user=users.id_user JOIN menu ON pemesanan.id_menu=menu.id_menu JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status ORDER BY pemesanan.id_pemesanan DESC");
+    $pemesanan = mysqli_query($conn, "SELECT pemesanan.*, ongkir.*, users.username, users.email, users.telp, menu.nama_makanan, menu.harga, menu.image, pemesanan_status.status_pemesanan 
+      FROM pemesanan JOIN ongkir ON pemesanan.id_pemesanan=ongkir.id_pemesanan 
+      LEFT JOIN users ON pemesanan.id_user=users.id_user 
+      LEFT JOIN menu ON pemesanan.id_menu=menu.id_menu 
+      LEFT JOIN pemesanan_status ON pemesanan.id_status=pemesanan_status.id_status 
+      ORDER BY pemesanan.id_pemesanan DESC
+    ");
 
     if (isset($_POST["ubah-tentang"])) {
       if (edit_tentang($_POST) > 0) {

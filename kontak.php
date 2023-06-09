@@ -52,6 +52,7 @@ $_SESSION["page-url"] = "kontak";
         </div>
         <div class="col-md-6">
           <div class="wow fadeInUp" data-wow-delay="0.2s">
+            <h3 class="text-center mb-3">Berikan Ulasan Anda</h3>
             <form action="" method="POST">
               <div class="row g-3">
                 <div class="col-md-6">
